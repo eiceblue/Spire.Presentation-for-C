@@ -85,7 +85,7 @@ int main()
 	//Load the file from disk.
 	ppt->LoadFromFile(inputFile.c_str());
 
-	//Save the document to PDF format
+	//Save the document to HTML format
 	ppt->SaveToFile(outputFile.c_str(), FileFormat::PDF);
 
 	delete ppt;
