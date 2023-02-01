@@ -35,6 +35,38 @@ Spire.Presentation for C++ is a totally independent C++ PowerPoint API which doe
 
 ### Examples
 
+### Encrypt PowerPoint in C++
+
+```c++
+#include "pch.h"
+
+using namespace std;
+using namespace Spire::Presentation;
+
+int main()
+{
+	std::wstring inputFile = DataPath"Encrypt.pptx";
+	std::wstring outputFile = OutputPath"Encrypt.pptx";
+
+	//Create a PPT document
+	Presentation* presentation = new Presentation();
+
+	//Load the document from disk
+	presentation->LoadFromFile(inputFile.c_str());
+
+	//Get the password that the user entered
+	std::wstring password = L"e-iceblue";
+
+	//Encrypy the document with the password
+	presentation->Encrypt(password.c_str());
+
+	//Save the document
+	presentation->SaveToFile(outputFile.c_str(), FileFormat::Pptx2010);
+	delete presentation;
+
+}
+```
+
 ### Convert PowerPoint to PDF in C++
 
 ```c++
@@ -91,7 +123,7 @@ int main()
 }
 ```
 
-### Encrypt PowerPoint in C++
+### Convert PowerPoint to SVG in C++
 
 ```c++
 #include "pch.h"
@@ -101,24 +133,24 @@ using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring inputFile = DataPath"Encrypt.pptx";
-	std::wstring outputFile = OutputPath"Encrypt.pptx";
+	std::wstring inputFile = DataPath"ToSVG.pptx";
+	std::wstring outputFile = OutputPath"SVG/ToSVG/";
 
 	//Create a PPT document
-	Presentation* presentation = new Presentation();
+	Presentation* ppt = new Presentation();
+	//Load the file from disk.
+	ppt->LoadFromFile(inputFile.c_str());
 
-	//Load the document from disk
-	presentation->LoadFromFile(inputFile.c_str());
-
-	//Get the password that the user entered
-	std::wstring password = L"e-iceblue";
-
-	//Encrypy the document with the password
-	presentation->Encrypt(password.c_str());
-
-	//Save the document
-	presentation->SaveToFile(outputFile.c_str(), FileFormat::Pptx2010);
-	delete presentation;
+	//Retain the notes while converting PowerPoint file to svg file.
+	ppt->SetIsNoteRetained(true);
+	SlideCollection* slides = ppt->GetSlides();
+	for (int i = 0; i < slides->GetCount(); i++)
+	{
+		Stream* svg = slides->GetItem(i)->SaveToSVG();
+		svg->Save((outputFile + L"ToSVG-" + to_wstring(i) + L".svg").c_str());
+		svg->Dispose();
+	}
+	delete ppt;
 
 }
 ```
