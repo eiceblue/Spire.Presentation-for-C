@@ -14,7 +14,7 @@ Spire.Presentation for C++ is a totally independent C++ PowerPoint API which doe
 
 ### Freely Operate PowerPoint Files
 
-- Create/Save/Merge/Split/Print PowerPoint Document.
+- Create/Save/Merge/Split PowerPoint Document.
 - Protect/Unprotect PowerPoint Document.
 - Create/Add/Delete/Hide/Show/Move slides.
 - Add/Remove/Extract/Replace comments and notes in PowerPoint.
