@@ -1,15 +1,14 @@
 #include "pch.h"
 
-using namespace std;
 using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring inputFile = DataPath"ShapeTemplate.pptx";
-	std::wstring outputFile = OutputPath"ResetShapeSizeAndPosition.pptx";
+	wstring inputFile = DATAPATH"ShapeTemplate.pptx";
+	wstring outputFile = OUTPUTPATH"ResetShapeSizeAndPosition.pptx";
 
 	//Create an instance of presentation document
-	Presentation* ppt = new Presentation();
+	intrusive_ptr<Presentation> ppt = new Presentation();
 	//Load file
 	ppt->LoadFromFile(inputFile.c_str());
 
@@ -31,10 +30,10 @@ int main()
 	//Reset the size and position of the shape on the slide
 	for (int l = 0; l < ppt->GetSlides()->GetCount(); l++)
 	{
-		ISlide* slide = ppt->GetSlides()->GetItem(l);
+		intrusive_ptr<ISlide> slide = ppt->GetSlides()->GetItem(l);
 		for (int s = 0; s < slide->GetShapes()->GetCount(); s++)
 		{
-			IShape* shape = slide->GetShapes()->GetItem(s);
+			intrusive_ptr<IShape> shape = slide->GetShapes()->GetItem(s);
 			shape->SetHeight(shape->GetHeight() * ratioHeight);
 			shape->SetWidth(shape->GetWidth() * ratioWidth);
 
@@ -44,5 +43,6 @@ int main()
 	}
 	//Save the document
 	ppt->SaveToFile(outputFile.c_str(), FileFormat::Pptx2013);
-	delete ppt;
+
 }
+

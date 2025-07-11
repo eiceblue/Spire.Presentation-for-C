@@ -1,23 +1,22 @@
 #include "pch.h"
 
-using namespace std;
 using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring inputFile = DataPath"Template_Ppt_1.pptx";
-	std::wstring outputFile = OutputPath"AddImageWatermark.pptx";
+	wstring inputFile = DATAPATH"Template_Ppt_1.pptx";
+	wstring outputFile = OUTPUTPATH"AddImageWatermark.pptx";
 
 	//Create a PowerPoint document.
-	Presentation* presentation = new Presentation();
+	intrusive_ptr<Presentation> presentation = new Presentation();
 
 	//Load the file from disk.
 	presentation->LoadFromFile(inputFile.c_str());
 
 	//Get the image you want to add as image watermark.
-	Stream* fileStream = new Stream(DataPath"Logo.png");
+	intrusive_ptr<Stream> fileStream = new Stream(DATAPATH"Logo.png");
 
-	IImageData* image = presentation->GetImages()->Append(fileStream);
+	intrusive_ptr<IImageData> image = presentation->GetImages()->Append(fileStream);
 	fileStream->Close();
 
 	//Set the properties of SlideBackground, and then fill the image as watermark.
@@ -28,5 +27,7 @@ int main()
 
 	//Save to file.
 	presentation->SaveToFile(outputFile.c_str(), FileFormat::Pptx2013);
-	delete presentation;
+		
 }
+
+

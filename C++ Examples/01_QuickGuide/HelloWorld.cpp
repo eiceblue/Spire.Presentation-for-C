@@ -1,18 +1,17 @@
 #include "pch.h"
 
-using namespace std;
 using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring outputFile = OutputPath"HelloWorld.pptx";
+	wstring outputFile = OUTPUTPATH"HelloWorld.pptx";
 
 	//Create a PPT document
-	Presentation* presentation = new Presentation();
+	intrusive_ptr<Presentation> presentation = new Presentation();
 
 	//Add a new shape to the PPT document
-	RectangleF* rec = new RectangleF(presentation->GetSlideSize()->GetSize()->GetWidth() / 2 - 250, 80, 500, 150);
-	IAutoShape* shape = presentation->GetSlides()->GetItem(0)->GetShapes()->AppendShape(ShapeType::Rectangle, rec);
+	intrusive_ptr<RectangleF> rec = new RectangleF(presentation->GetSlideSize()->GetSize()->GetWidth() / 2 - 250, 80, 500, 150);
+	intrusive_ptr<IAutoShape> shape = presentation->GetSlides()->GetItem(0)->GetShapes()->AppendShape(ShapeType::Rectangle, rec);
 
 	shape->GetShapeStyle()->GetLineColor()->SetColor(Color::GetWhite());
 	shape->GetFill()->SetFillType(FillFormatType::None);
@@ -21,7 +20,7 @@ int main()
 	shape->AppendTextFrame(L"Hello World!");
 
 	//Set the font and fill style of the text
-	TextRange* textRange = shape->GetTextFrame()->GetTextRange();
+	intrusive_ptr<TextRange> textRange = shape->GetTextFrame()->GetTextRange();
 	textRange->GetFill()->SetFillType(FillFormatType::Solid);
 	textRange->GetFill()->GetSolidColor()->SetColor(Color::GetCadetBlue());
 	textRange->SetFontHeight(66);
@@ -29,6 +28,6 @@ int main()
 
 	//Save the document
 	presentation->SaveToFile(outputFile.c_str(), FileFormat::Pptx2010);
-	delete presentation;
 
 }
+

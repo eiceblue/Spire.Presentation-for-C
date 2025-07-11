@@ -6,20 +6,20 @@ using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring outputFile = OutputPath"BubbleChart.pptx";
+	wstring outputFile = OUTPUTPATH"BubbleChart.pptx";
 
 	//Create a PPT document
-	Presentation* ppt = new Presentation();
+	intrusive_ptr<Presentation> ppt = new Presentation();
 
 	//Set background image
-	std::wstring ImageFile = DataPath"bg.png";
-	RectangleF* rect2 = new RectangleF(0, 0, ppt->GetSlideSize()->GetSize()->GetWidth(), ppt->GetSlideSize()->GetSize()->GetHeight());
+	std::wstring ImageFile = DATAPATH"bg.png";
+	intrusive_ptr<RectangleF> rect2 = new RectangleF(0, 0, ppt->GetSlideSize()->GetSize()->GetWidth(), ppt->GetSlideSize()->GetSize()->GetHeight());
 	ppt->GetSlides()->GetItem(0)->GetShapes()->AppendEmbedImage(ShapeType::Rectangle, ImageFile.c_str(), rect2);
 	ppt->GetSlides()->GetItem(0)->GetShapes()->GetItem(0)->GetLine()->GetFillFormat()->GetSolidFillColor()->SetKnownColor(KnownColors::FloralWhite);
 
 	//Add bubble chart
-	RectangleF* rect1 = new RectangleF(90, 100, 550, 320);
-	IChart* chart = ppt->GetSlides()->GetItem(0)->GetShapes()->AppendChart(ChartType::Bubble, rect1, false);
+	intrusive_ptr<RectangleF> rect1 = new RectangleF(90, 100, 550, 320);
+	intrusive_ptr<IChart> chart = ppt->GetSlides()->GetItem(0)->GetShapes()->AppendChart(ChartType::Bubble, rect1, false);
 
 	//Chart title
 	chart->GetChartTitle()->GetTextProperties()->SetText(L"Bubble Chart");
@@ -55,5 +55,4 @@ int main()
 
 	//Save to file.
 	ppt->SaveToFile(outputFile.c_str(), FileFormat::Pptx2010);
-	delete ppt;
 }

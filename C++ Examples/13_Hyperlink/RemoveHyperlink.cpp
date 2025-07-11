@@ -5,22 +5,21 @@ using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring inputFile = DataPath"Template_Ppt_5.pptx";
-	std::wstring outputFile = OutputPath"RemoveHyperlink.pptx";
+	wstring inputFile = DATAPATH"Template_Ppt_5.pptx";
+	wstring outputFile = OUTPUTPATH"RemoveHyperlink.pptx";
 
 	//Create a PPT document
-	Presentation* ppt = new Presentation();
+	intrusive_ptr<Presentation> ppt = new Presentation();
 
 	ppt->LoadFromFile(inputFile.c_str());
 
-	ISlide* slide = ppt->GetSlides()->GetItem(0);
+	intrusive_ptr<ISlide> slide = ppt->GetSlides()->GetItem(0);
 	//Find the hyperlinks you want to edit.
-	IAutoShape* shape = dynamic_cast<IAutoShape*>(slide->GetShapes()->GetItem(0));
+	intrusive_ptr<IAutoShape> shape = Object::Dynamic_cast<IAutoShape>(slide->GetShapes()->GetItem(0));
 
 	//Set the ClickAction property into null to remove the hyperlink.
 	shape->GetTextFrame()->GetTextRange()->SetClickAction(ClickHyperlink::GetNoAction());
 
 	ppt->SaveToFile(outputFile.c_str(), FileFormat::Pptx2013);
-	delete ppt;
 
 }

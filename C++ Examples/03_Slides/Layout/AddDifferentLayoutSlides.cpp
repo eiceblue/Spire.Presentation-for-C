@@ -1,14 +1,13 @@
 #include "pch.h"
 
-using namespace std;
 using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring outputFile = OutputPath"AddDifferentLayoutSlides.pptx";
+	wstring outputFile = OUTPUTPATH"AddDifferentLayoutSlides.pptx";
 
 	//Create a PPT document
-	Presentation* presentation = new Presentation();
+	intrusive_ptr<Presentation> presentation = new Presentation();
 
 	//Remove the default slide
 	presentation->GetSlides()->RemoveAt(0);
@@ -22,5 +21,6 @@ int main()
 
 	//Save the document
 	presentation->SaveToFile(outputFile.c_str(), FileFormat::Pptx2013);
-	delete presentation;
+				
+	
 }

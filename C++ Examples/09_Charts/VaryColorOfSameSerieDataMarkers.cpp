@@ -5,19 +5,19 @@ using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring inputFile = DataPath"VaryColorsOfSameSeriesDataMarkers.pptx";
-	std::wstring outputFile = OutputPath"VaryColorOfSameSerieDataMarkers.pptx";
+	wstring inputFile = DATAPATH"VaryColorsOfSameSeriesDataMarkers.pptx";
+	wstring outputFile = OUTPUTPATH"VaryColorOfSameSerieDataMarkers.pptx";
 
 	//Create a PPT document
-	Presentation* ppt = new Presentation();
+	intrusive_ptr<Presentation> ppt = new Presentation();
 	//Load the file from disk.
 	ppt->LoadFromFile(inputFile.c_str());
 
 	//Get the chart.
-	IChart* chart = dynamic_cast<IChart*>(ppt->GetSlides()->GetItem(0)->GetShapes()->GetItem(0));
+	intrusive_ptr<IChart> chart = Object::Dynamic_cast<IChart>(ppt->GetSlides()->GetItem(0)->GetShapes()->GetItem(0));
 
 	//Create a ChartDataPoint object and specify the index.
-	ChartDataPoint* dataPoint = new ChartDataPoint(chart->GetSeries()->GetItem(0));
+	intrusive_ptr<ChartDataPoint> dataPoint = new ChartDataPoint(chart->GetSeries()->GetItem(0));
 	dataPoint->SetIndex(0);
 
 	//Set the fill color of the data marker.
@@ -49,5 +49,4 @@ int main()
 
 	//Save to file.
 	ppt->SaveToFile(outputFile.c_str(), FileFormat::Pptx2013);
-	delete ppt;
 }

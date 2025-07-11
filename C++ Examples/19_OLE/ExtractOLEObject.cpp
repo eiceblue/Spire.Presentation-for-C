@@ -1,20 +1,19 @@
 #include "pch.h"
 
-using namespace std;
 using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring inputFile = DataPath"ExtractOLEObject.pptx";
-	std::wstring outputFile_px = OutputPath"ExtractOLEObject.pptx";
-	std::wstring outputFile_p = OutputPath"ExtractOLEObject.ppt";
-	std::wstring outputFile_xls = OutputPath"tractOLEObject.xls";
-	std::wstring outputFile_xlsx = OutputPath"ExtractOLEObject.xlsx";
-	std::wstring outputFile_doc = OutputPath"ExtractOLEObject.doc";
-	std::wstring outputFile_docx = OutputPath"ExtractOLEObject.docx";
+	wstring inputFile = DATAPATH"ExtractOLEObject.pptx";
+	wstring outputFile_px = OUTPUTPATH"ExtractOLEObject.pptx";
+	wstring outputFile_p = OUTPUTPATH"ExtractOLEObject.ppt";
+	wstring outputFile_xls = OUTPUTPATH"tractOLEObject.xls";
+	wstring outputFile_xlsx = OUTPUTPATH"ExtractOLEObject.xlsx";
+	wstring outputFile_doc = OUTPUTPATH"ExtractOLEObject.doc";
+	wstring outputFile_docx = OUTPUTPATH"ExtractOLEObject.docx";
 
 	//Create a PPT document
-	Presentation* presentation = new Presentation();
+	intrusive_ptr<Presentation> presentation = new Presentation();
 
 	//Load document from disk
 	presentation->LoadFromFile(inputFile.c_str());
@@ -22,17 +21,17 @@ int main()
 	//Loop through the slides and shapes
 	for (int i = 0; i < presentation->GetSlides()->GetCount(); i++)
 	{
-		ISlide* slide = presentation->GetSlides()->GetItem(i);
+		intrusive_ptr<ISlide> slide = presentation->GetSlides()->GetItem(i);
 		for (int k = 0; k < slide->GetShapes()->GetCount(); k++)
 		{
-			IShape* shape = slide->GetShapes()->GetItem(k);
-			if (dynamic_cast<Spire::Presentation::IOleObject*>(shape) != nullptr)
+			intrusive_ptr<IShape> shape = slide->GetShapes()->GetItem(k);
+			if (Object::Dynamic_cast<Spire::Presentation::IOleObject>(shape) != nullptr)
 			{
 				//Find OLE object
-				Spire::Presentation::IOleObject* oleObject = dynamic_cast<Spire::Presentation::IOleObject*>(shape);
+				intrusive_ptr<Spire::Presentation::IOleObject> oleObject = Object::Dynamic_cast<Spire::Presentation::IOleObject>(shape);
 
 				//Get its data and write to file
-				Stream* stream = oleObject->GetDataStream();
+				intrusive_ptr<Stream> stream = oleObject->GetDataStream();
 
 				if (wcscmp(oleObject->GetProgId(), L"Excel.Sheet.8") == 0)
 				{
@@ -67,6 +66,5 @@ int main()
 			}
 		}
 	}
-	delete presentation;
-
 }
+

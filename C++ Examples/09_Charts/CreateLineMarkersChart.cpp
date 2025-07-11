@@ -6,14 +6,14 @@ using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring outputFile = OutputPath"CreateLineMarkersChart.pptx";
+	wstring outputFile = OUTPUTPATH"CreateLineMarkersChart.pptx";
 
 	//Create a PPT document
-	Presentation* ppt = new Presentation();
+	intrusive_ptr<Presentation> ppt = new Presentation();
 
 	//Add line markers chart
-	RectangleF* rect1 = new RectangleF(90, 100, 550, 320);
-	IChart* chart = ppt->GetSlides()->GetItem(0)->GetShapes()->AppendChart(ChartType::LineMarkers, rect1, false);
+	intrusive_ptr<RectangleF> rect1 = new RectangleF(90, 100, 550, 320);
+	intrusive_ptr<IChart> chart = ppt->GetSlides()->GetItem(0)->GetShapes()->AppendChart(ChartType::LineMarkers, rect1, false);
 
 	//Chart title
 	chart->GetChartTitle()->GetTextProperties()->SetText(L"Line Makers Chart");
@@ -53,5 +53,4 @@ int main()
 
 	//Save to file.
 	ppt->SaveToFile(outputFile.c_str(), FileFormat::Pptx2010);
-	delete ppt;
 }

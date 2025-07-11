@@ -28,16 +28,16 @@ const wstring chartTypeToString(ChartBaseUnitType chartType)
 
 int main()
 {
-	std::wstring inputFile = DataPath"ChartSample2.pptx";
-	std::wstring outputFile = OutputPath"GetValuesAndUnitFromAxis.txt";
+	wstring inputFile = DATAPATH"ChartSample2.pptx";
+	wstring outputFile = OUTPUTPATH"GetValuesAndUnitFromAxis.txt";
 
 	//Create a PPT document
-	Presentation* ppt = new Presentation();
+	intrusive_ptr<Presentation> ppt = new Presentation();
 	//Load the file from disk.
 	ppt->LoadFromFile(inputFile.c_str());
 
 	//Get the chart.
-	IChart* chart = dynamic_cast<IChart*>(ppt->GetSlides()->GetItem(0)->GetShapes()->GetItem(0));
+	intrusive_ptr<IChart> chart = Object::Dynamic_cast<IChart>(ppt->GetSlides()->GetItem(0)->GetShapes()->GetItem(0));
 
 	wofstream desFile(outputFile, ios::out);
 	//Get unit from primary category axis

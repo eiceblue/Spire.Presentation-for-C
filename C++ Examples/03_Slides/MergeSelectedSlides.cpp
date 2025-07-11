@@ -1,24 +1,24 @@
 #include "pch.h"
 
-using namespace std;
 using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring inputFile_1 = DataPath"InputTemplate.pptx";
-	std::wstring inputFile_2 = DataPath"TextTemplate.pptx";
-	std::wstring outputFile = OutputPath"MergeSelectedSlides.pptx";
+	wstring inputFile_1 = DATAPATH"InputTemplate.pptx";
+	wstring inputFile_2 = DATAPATH"TextTemplate.pptx";
+	wstring outputFile = OUTPUTPATH"MergeSelectedSlides.pptx";
+
 
 	//Create an instance of presentation document
-	Presentation* ppt = new Presentation();
+	intrusive_ptr<Presentation> ppt = new Presentation();
 
 	//Remove the first slide
 	ppt->GetSlides()->RemoveAt(0);
 
 	//Load two PPT files
-	Presentation* ppt1 = new Presentation();
+	intrusive_ptr<Presentation> ppt1 = new Presentation();
 	ppt1->LoadFromFile(inputFile_1.c_str());
-	Presentation* ppt2 = new Presentation();
+	intrusive_ptr<Presentation> ppt2 = new Presentation();
 	ppt2->LoadFromFile(inputFile_2.c_str());
 	//Append all slides in ppt1 to ppt
 	for (int i = 0; i < ppt1->GetSlides()->GetCount(); i++)
@@ -31,5 +31,4 @@ int main()
 
 	//Save the document
 	ppt->SaveToFile(outputFile.c_str(), FileFormat::Pptx2013);
-	delete ppt;
 }

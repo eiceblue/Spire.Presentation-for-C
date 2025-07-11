@@ -1,29 +1,29 @@
 ﻿#include "pch.h"
 
-using namespace std;
 using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring inputFile = DataPath"Template_Az.pptx";
-	std::wstring outputFile = OutputPath"LineSpacing.pptx";
+
+	wstring inputFile = DATAPATH"Template_Az.pptx";
+	wstring outputFile = OUTPUTPATH"LineSpacing.pptx";
 
 	//Create a PPT document
-	Presentation* presentation = new Presentation();
+	intrusive_ptr<Presentation> presentation = new Presentation();
 
 	//Load PPT file from disk
 	presentation->LoadFromFile(inputFile.c_str());
 	//Get the first slide
-	ISlide* slide = presentation->GetSlides()->GetItem(0);
+	intrusive_ptr<ISlide> slide = presentation->GetSlides()->GetItem(0);
 	//Add a shape 
-	IAutoShape* shape = presentation->GetSlides()->GetItem(0)->GetShapes()->AppendShape(ShapeType::Rectangle, new RectangleF(50, 100, presentation->GetSlideSize()->GetSize()->GetWidth() - 100, 300));
+	intrusive_ptr<IAutoShape> shape = presentation->GetSlides()->GetItem(0)->GetShapes()->AppendShape(ShapeType::Rectangle, new RectangleF(50, 100, presentation->GetSlideSize()->GetSize()->GetWidth() - 100, 300));
 	shape->GetShapeStyle()->GetLineColor()->SetColor(Color::GetWhite());
 	shape->GetFill()->SetFillType(FillFormatType::None);
 	shape->GetTextFrame()->GetParagraphs()->Clear();
 
 	//Add text
-	shape->AppendTextFrame(L"Spire.Presentation for .NET is a professional PowerPoint® compatible API that enables developers tocreate, read, write, modify, convert and Print PowerPoint documents from any .NET(C#, VB.NET, ASP.NET) platform.From Spire.Presentation v 3.7.5, Spire.Presentation starts to support .NET Core, .NET standard.");//Set font and color of text
-	TextRange* textRange = shape->GetTextFrame()->GetTextRange();
+	shape->AppendTextFrame(L"Spire.Presentation for C++ is a professional PowerPoint® compatible API that enables developers tocreate, read, write, modify, convert and Print PowerPoint documents.");//Set font and color of text
+	intrusive_ptr<TextRange> textRange = shape->GetTextFrame()->GetTextRange();
 	textRange->GetFill()->SetFillType(FillFormatType::Solid);
 	textRange->GetFill()->GetSolidColor()->SetColor(Color::GetBlueViolet());
 	textRange->SetFontHeight(20);
@@ -35,6 +35,5 @@ int main()
 	shape->GetTextFrame()->GetParagraphs()->GetItem(0)->SetLineSpacing(150);
 
 	presentation->SaveToFile(outputFile.c_str(), FileFormat::Pptx2013);
-	delete presentation;
-
 }
+

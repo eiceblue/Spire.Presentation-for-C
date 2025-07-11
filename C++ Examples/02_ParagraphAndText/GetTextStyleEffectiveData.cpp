@@ -1,94 +1,98 @@
 #include "pch.h"
 
-using namespace std;
 using namespace Spire::Presentation;
 
-const wstring txtTypeToString(TextAlignmentType txtType)
+namespace ParagraphAndText
 {
-	switch (txtType)
+	const wstring txtTypeToString(TextAlignmentType txtType)
 	{
-	case Spire::Presentation::TextAlignmentType::None:
-		return L"None";
-		break;
-	case Spire::Presentation::TextAlignmentType::Left:
-		return L"Left";
-		break;
-	case Spire::Presentation::TextAlignmentType::Center:
-		return L"Center";
-		break;
-	case Spire::Presentation::TextAlignmentType::Right:
-		return L"Right";
-		break;
-	case Spire::Presentation::TextAlignmentType::Justify:
-		return L"Justify";
-		break;
-	case Spire::Presentation::TextAlignmentType::Dist:
-		return L"Dist";
-		break;
-	default:
-		break;
+		switch (txtType)
+		{
+		case Spire::Presentation::TextAlignmentType::None:
+			return L"None";
+			break;
+		case Spire::Presentation::TextAlignmentType::Left:
+			return L"Left";
+			break;
+		case Spire::Presentation::TextAlignmentType::Center:
+			return L"Center";
+			break;
+		case Spire::Presentation::TextAlignmentType::Right:
+			return L"Right";
+			break;
+		case Spire::Presentation::TextAlignmentType::Justify:
+			return L"Justify";
+			break;
+		case Spire::Presentation::TextAlignmentType::Dist:
+			return L"Dist";
+			break;
+		default:
+			break;
+		}
+	}
+	const wstring triTypeToString(TriState  triType)
+	{
+		switch (triType)
+		{
+		case Spire::Presentation::TriState::Null:
+			return L"Null";
+			break;
+		case Spire::Presentation::TriState::False:
+			return L"False";
+			break;
+		case Spire::Presentation::TriState::True:
+			return L"True";
+			break;
+		default:
+			break;
+		}
 	}
 }
-const wstring triTypeToString(TriState  triType)
-{
-	switch (triType)
+	const wstring fontTypeToString(FontAlignmentType fontType)
 	{
-	case Spire::Presentation::TriState::Null:
-		return L"Null";
-		break;
-	case Spire::Presentation::TriState::False:
-		return L"False";
-		break;
-	case Spire::Presentation::TriState::True:
-		return L"True";
-		break;
-	default:
-		break;
+		switch (fontType)
+		{
+		case Spire::Presentation::FontAlignmentType::None:
+			return L"None";
+			break;
+		case Spire::Presentation::FontAlignmentType::Auto:
+			return L"Auto";
+			break;
+		case Spire::Presentation::FontAlignmentType::Top:
+			return L"Top";
+			break;
+		case Spire::Presentation::FontAlignmentType::Center:
+			return L"Center";
+			break;
+		case Spire::Presentation::FontAlignmentType::Bottom:
+			return L"Bottom";
+			break;
+		case Spire::Presentation::FontAlignmentType::Baseline:
+			return L"Baseline";
+			break;
+		default:
+			break;
+		}
 	}
-}
-const wstring fontTypeToString(FontAlignmentType fontType)
-{
-	switch (fontType)
-	{
-	case Spire::Presentation::FontAlignmentType::None:
-		return L"None";
-		break;
-	case Spire::Presentation::FontAlignmentType::Auto:
-		return L"Auto";
-		break;
-	case Spire::Presentation::FontAlignmentType::Top:
-		return L"Top";
-		break;
-	case Spire::Presentation::FontAlignmentType::Center:
-		return L"Center";
-		break;
-	case Spire::Presentation::FontAlignmentType::Bottom:
-		return L"Bottom";
-		break;
-	case Spire::Presentation::FontAlignmentType::Baseline:
-		return L"Baseline";
-		break;
-	default:
-		break;
-	}
-}
+
 
 int main()
 {
-	std::wstring inputFile = DataPath"Template_Az1.pptx";
-	std::wstring outputFile = OutputPath"GetTextStyleEffectiveData.txt";
+	
+	wstring inputFile = DATAPATH"Template_Az1.pptx";
+	wstring outputFile = OUTPUTPATH"GetTextStyleEffectiveData.txt";
 
 	//Create a PPT document
-	Presentation* presentation = new Presentation();
+	intrusive_ptr<Presentation> presentation = new Presentation();
 
 	wofstream outFile(outputFile, ios::out);
 
 	//Load PPT file from disk
 	presentation->LoadFromFile(inputFile.c_str());
 	//Get the first slide
-	ISlide* slide = presentation->GetSlides()->GetItem(0);
+	intrusive_ptr<ISlide> slide = presentation->GetSlides()->GetItem(0);
 	//Get a shape 
-	IAutoShape* shape = dynamic_cast<IAutoShape*>(presentation->GetSlides()->GetItem(0)->GetShapes()->GetItem(0));
+	intrusive_ptr<IAutoShape> shape = Object::Dynamic_cast<IAutoShape>(presentation->GetSlides()->GetItem(0)->GetShapes()->GetItem(0));
 
 	for (int p = 0; p < shape->GetTextFrame()->GetParagraphs()->GetCount(); p++)
 	{
@@ -96,9 +100,9 @@ int main()
 		outFile << "Text style for Paragraph " << std::to_string(p).c_str() << ":" << endl;
 		//Get the paragraph style
 		outFile << " Indent: " << paragraph->GetIndent() << endl;
-		outFile << " Alignment: " << txtTypeToString(paragraph->GetAlignment()) << endl;
+		outFile << " Alignment: " << ParagraphAndText::txtTypeToString(paragraph->GetAlignment()) << endl;
 		outFile << " Font alignment: " << fontTypeToString(paragraph->GetFontAlignment()) << endl;
-		outFile << " Hanging punctuation: " << triTypeToString(paragraph->GetHangingPunctuation()) << endl;
+		outFile << " Hanging punctuation: " << ParagraphAndText::triTypeToString(paragraph->GetHangingPunctuation()) << endl;
 		outFile << " Line spacing: " << paragraph->GetLineSpacing() << endl;
 		outFile << " Space before: " << paragraph->GetSpaceBefore() << endl;
 		outFile << " Space after: " << paragraph->GetSpaceAfter() << endl;
@@ -115,6 +119,7 @@ int main()
 		}
 	}
 	outFile.close();
-	delete presentation;
+	
 
 }
+

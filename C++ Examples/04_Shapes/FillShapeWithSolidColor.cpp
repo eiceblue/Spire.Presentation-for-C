@@ -1,21 +1,20 @@
 #include "pch.h"
 
-using namespace std;
 using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring outputFile = OutputPath"FillShapeWithSolidColor.pptx";
+	wstring outputFile = OUTPUTPATH"FillShapeWithSolidColor.pptx";
 
 	//Create a PPT document
-	Presentation* presentation = new Presentation();
+	intrusive_ptr<Presentation> presentation = new Presentation();
 
 	//Get the first slide
-	ISlide* slide = presentation->GetSlides()->GetItem(0);
+	intrusive_ptr<ISlide> slide = presentation->GetSlides()->GetItem(0);
 
 	//Add a rectangle
-	RectangleF* rect = new RectangleF(presentation->GetSlideSize()->GetSize()->GetWidth() / 2 - 50, 100, 100, 100);
-	IAutoShape* shape = slide->GetShapes()->AppendShape(ShapeType::Rectangle, rect);
+	intrusive_ptr<RectangleF> rect = new RectangleF(presentation->GetSlideSize()->GetSize()->GetWidth() / 2 - 50, 100, 100, 100);
+	intrusive_ptr<IAutoShape> shape = slide->GetShapes()->AppendShape(ShapeType::Rectangle, rect);
 
 	//Fill shape with solid color
 	shape->GetFill()->SetFillType(FillFormatType::Solid);
@@ -27,5 +26,5 @@ int main()
 
 	//Save the document
 	presentation->SaveToFile(outputFile.c_str(), FileFormat::Pptx2013);
-	delete presentation;
 }
+

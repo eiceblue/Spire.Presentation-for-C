@@ -1,15 +1,14 @@
 #include "pch.h"
 
-using namespace std;
 using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring inputFile = DataPath"CreateTable.pptx";
-	std::wstring outputFile = OutputPath"CreateTable.pptx";
+	wstring inputFile = DATAPATH"CreateTable.pptx";
+	wstring outputFile = OUTPUTPATH"CreateTable.pptx";
 
 	//Create a PPT document
-	Presentation* presentation = new Presentation();
+	intrusive_ptr<Presentation> presentation = new Presentation();
 
 	//Load the document from disk
 	presentation->LoadFromFile(inputFile.c_str());
@@ -18,7 +17,7 @@ int main()
 	std::vector<double> heights = { 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15 };
 
 	//Add new table to PPT
-	ITable* table = presentation->GetSlides()->GetItem(0)->GetShapes()->AppendTable(presentation->GetSlideSize()->GetSize()->GetWidth() / 2 - 275, 90, widths, heights);
+	intrusive_ptr<ITable> table = presentation->GetSlides()->GetItem(0)->GetShapes()->AppendTable(presentation->GetSlideSize()->GetSize()->GetWidth() / 2 - 275, 90, widths, heights);
 
 	std::vector<std::vector<std::wstring>> dataStr =
 	{
@@ -61,5 +60,5 @@ int main()
 
 	//Save the document
 	presentation->SaveToFile(outputFile.c_str(), FileFormat::Pptx2010);
-	delete presentation;
+
 }

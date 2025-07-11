@@ -6,19 +6,19 @@ using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring outputFile = OutputPath"Create100PercentStackedBarChart.pptx";
+	wstring outputFile = OUTPUTPATH"Create100PercentStackedBarChart.pptx";
 
 	//Create a PPT document
-	Presentation* ppt = new Presentation();
+	intrusive_ptr<Presentation> ppt = new Presentation();
 	//Add a "Bar100PercentStacked" chart to the first slide.
 	ppt->GetSlideSize()->SetType(SlideSizeType::Screen16x9);
-	SizeF* slidesize = ppt->GetSlideSize()->GetSize();
+	intrusive_ptr<SizeF> slidesize = ppt->GetSlideSize()->GetSize();
 
 	auto slide = ppt->GetSlides()->GetItem(0);
 
 	//Append a chart.
-	RectangleF* rect = new RectangleF(20, 20, slidesize->GetWidth() - 40, slidesize->GetHeight() - 40);
-	IChart* chart = slide->GetShapes()->AppendChart(ChartType::Bar100PercentStacked, rect);
+	intrusive_ptr<RectangleF> rect = new RectangleF(20, 20, slidesize->GetWidth() - 40, slidesize->GetHeight() - 40);
+	intrusive_ptr<IChart> chart = slide->GetShapes()->AppendChart(ChartType::Bar100PercentStacked, rect);
 
 	//Write data to the chart data.
 	std::vector<std::wstring> columnlabels = { L"Series 1", L"Series 2", L"Series 3" };
@@ -86,7 +86,7 @@ int main()
 	chart->GetSeries()->GetItem(1)->GetFill()->GetSolidColor()->SetKnownColor(KnownColors::Red);
 	chart->GetSeries()->GetItem(2)->GetFill()->GetSolidColor()->SetKnownColor(KnownColors::Green);
 
-	TextFont* font = new TextFont(L"Tw Cen MT");
+	intrusive_ptr<TextFont> font = new TextFont(L"Tw Cen MT");
 
 	//Set the font and size for chartlegend.
 	for (int k = 0; k < chart->GetChartLegend()->GetEntryTextProperties().size(); k++)
@@ -97,5 +97,4 @@ int main()
 
 	//Save to file.
 	ppt->SaveToFile(outputFile.c_str(), FileFormat::Pptx2013);
-	delete ppt;
 }

@@ -1,15 +1,14 @@
 #include "pch.h"
 
-using namespace std;
 using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring inputFile = DataPath"IsTextboxSample.pptx";
-	std::wstring outputFile = OutputPath"IsTextBox.txt";
+	wstring inputFile = DATAPATH"IsTextboxSample.pptx";
+	wstring outputFile = OUTPUTPATH"IsTextBox.txt";
 
 	//Create an instance of presentation document
-	Presentation* ppt = new Presentation();
+	intrusive_ptr<Presentation> ppt = new Presentation();
 	//Load file
 	ppt->LoadFromFile(inputFile.c_str());
 
@@ -17,11 +16,11 @@ int main()
 
 	for (int l = 0; l < ppt->GetSlides()->GetCount(); l++)
 	{
-		ISlide* slide = ppt->GetSlides()->GetItem(l);
+		intrusive_ptr<ISlide> slide = ppt->GetSlides()->GetItem(l);
 		for (int s = 0; s < slide->GetShapes()->GetCount(); s++)
 		{
-			IShape* shape = slide->GetShapes()->GetItem(s);
-			if (dynamic_cast<IAutoShape*>(shape) != nullptr)
+			intrusive_ptr<IShape> shape = slide->GetShapes()->GetItem(s);
+			if (Object::CheckType<IAutoShape>(shape))
 			{
 				//Judge if the shape is textbox
 				bool isTextbox = shape->GetIsTextBox();
@@ -30,5 +29,5 @@ int main()
 		}
 	}
 	outFile.close();
-	delete ppt;
 }
+

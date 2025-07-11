@@ -5,20 +5,20 @@ using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring inputFile = DataPath"ColumnStacked.pptx";
-	std::wstring outputFile = OutputPath"SetPercentageForLabels.pptx";
+	wstring inputFile = DATAPATH"ColumnStacked.pptx";
+	wstring outputFile = OUTPUTPATH"SetPercentageForLabels.pptx";
 
 	//Create a PPT document
-	Presentation* ppt = new Presentation();
+	intrusive_ptr<Presentation> ppt = new Presentation();
 	//Load the file from disk.
 	ppt->LoadFromFile(inputFile.c_str());
 
 	//Get the chart.
-	IChart* chart = dynamic_cast<IChart*>(ppt->GetSlides()->GetItem(0)->GetShapes()->GetItem(0));
+	intrusive_ptr<IChart> chart = Object::Dynamic_cast<IChart>(ppt->GetSlides()->GetItem(0)->GetShapes()->GetItem(0));
 
 	for (int i = 0; i < chart->GetSeries()->GetCount(); i++)
 	{
-		ChartSeriesDataFormat* series = chart->GetSeries()->GetItem(i);
+		intrusive_ptr<ChartSeriesDataFormat> series = chart->GetSeries()->GetItem(i);
 		//Get the total number
 		float total = 0;
 		for (int k = 0; k < series->GetValues()->GetCount(); k++)
@@ -31,7 +31,7 @@ int main()
 			float tp = stof(series->GetValues()->GetItem(j)->GetText()) / total;
 			int dataPontPercent = tp > 0.0 ? (tp + 0.00005) * 10000 : (tp - 0.00005) * 10000;
 			//Add datalabels
-			ChartDataLabel* label = series->GetDataLabels()->Add();
+			intrusive_ptr<ChartDataLabel> label = series->GetDataLabels()->Add();
 			label->SetLabelValueVisible(true);
 			//Set the percent text for the label
 			wstringstream ss;
@@ -45,5 +45,4 @@ int main()
 	}
 	//Save to file.
 	ppt->SaveToFile(outputFile.c_str(), FileFormat::Pptx2010);
-	delete ppt;
 }

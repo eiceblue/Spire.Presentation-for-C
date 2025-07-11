@@ -6,21 +6,21 @@ using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring inputFile = DataPath"Template_Ppt_3.pptx";
-	std::wstring outputFile = OutputPath"AddShadowEffectForDataLabel.pptx";
+	wstring inputFile = DATAPATH"Template_Ppt_3.pptx";
+	wstring outputFile = OUTPUTPATH"AddShadowEffectForDataLabel.pptx";
 
 	//Create a PPT document
-	Presentation* presentation = new Presentation();
+	intrusive_ptr<Presentation> presentation = new Presentation();
 	//Load the file from disk.
 	presentation->LoadFromFile(inputFile.c_str());
 
 	//Get the column chart on the first slide and set chart title.
-	IChart* chart = dynamic_cast<IChart*>(presentation->GetSlides()
+	intrusive_ptr<IChart> chart = Object::Dynamic_cast<IChart>(presentation->GetSlides()
 		->GetItem(0)->GetShapes()->GetItem(0));
 
 	//Add a data label to the first chart series.
-	ChartDataLabelCollection* dataLabels = chart->GetSeries()->GetItem(0)->GetDataLabels();
-	ChartDataLabel* Label = dataLabels->Add();
+	intrusive_ptr<ChartDataLabelCollection> dataLabels = chart->GetSeries()->GetItem(0)->GetDataLabels();
+	intrusive_ptr<ChartDataLabel> Label = dataLabels->Add();
 	Label->SetLabelValueVisible(true);
 
 	//Add outer shadow effect to the data label.
@@ -40,5 +40,4 @@ int main()
 
 	//Save to file.
 	presentation->SaveToFile(outputFile.c_str(), FileFormat::Pptx2013);
-	delete presentation;
 }

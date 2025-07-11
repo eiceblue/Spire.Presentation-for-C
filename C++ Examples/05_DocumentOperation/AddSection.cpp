@@ -5,16 +5,16 @@ using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring inputFile = DataPath"BlankSample.pptx";
-	std::wstring outputFile = OutputPath"AddSection.pptx";
+	wstring inputFile = DATAPATH"BlankSample.pptx";
+	wstring outputFile = OUTPUTPATH"AddSection.pptx";
 
 	//Create a PPT document
-	Presentation* ppt = new Presentation();
+	intrusive_ptr<Presentation> ppt = new Presentation();
 	//Load the file from disk.
 	ppt->LoadFromFile(inputFile.c_str());
 
 	//Get the second slide
-	ISlide* slide = ppt->GetSlides()->GetItem(1);
+	intrusive_ptr<ISlide> slide = ppt->GetSlides()->GetItem(1);
 
 	//Append section with section name at the end
 	ppt->GetSectionList()->Append(L"E-iceblue01");
@@ -23,6 +23,5 @@ int main()
 
 	//Save to file.
 	ppt->SaveToFile(outputFile.c_str(), FileFormat::Pptx2013);
-	delete ppt;
 
 }

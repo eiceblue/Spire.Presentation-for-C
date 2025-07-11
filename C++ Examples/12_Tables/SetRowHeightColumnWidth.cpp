@@ -1,26 +1,25 @@
 #include "pch.h"
 
-using namespace std;
 using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring inputFile = DataPath"SetRowHeightColumnWidth.pptx";
-	std::wstring outputFile = OutputPath"SetRowHeightColumnWidth.pptx";
+	wstring inputFile = DATAPATH"SetRowHeightColumnWidth.pptx";
+	wstring outputFile = OUTPUTPATH"SetRowHeightColumnWidth.pptx";
 
 	//Creat a ppt document and load file
-	Presentation* ppt = new Presentation();
+	intrusive_ptr<Presentation> ppt = new Presentation();
 	ppt->LoadFromFile(inputFile.c_str());
 
 	//Get the table
-	ITable* table = nullptr;
+	intrusive_ptr<ITable> table = nullptr;
 	for (int s = 0; s < ppt->GetSlides()->GetItem(0)->GetShapes()->GetCount(); s++)
 	{
-		IShape* shape = ppt->GetSlides()->GetItem(0)->GetShapes()->GetItem(s);
-		if (dynamic_cast<ITable*>(shape) != nullptr)
+		intrusive_ptr<IShape> shape = ppt->GetSlides()->GetItem(0)->GetShapes()->GetItem(s);
+		
+		if (Object::CheckType<ITable>(shape))
 		{
-			table = dynamic_cast<ITable*>(shape);
-
+			table = Object::Dynamic_cast<ITable> (shape);
 			//Set the height for the rows
 			table->GetTableRows()->GetItem(0)->SetHeight(100);
 			table->GetTableRows()->GetItem(1)->SetHeight(80);
@@ -38,5 +37,5 @@ int main()
 	}
 	//Save the file
 	ppt->SaveToFile(outputFile.c_str(), FileFormat::Pptx2010);
-	delete ppt;
+		
 }

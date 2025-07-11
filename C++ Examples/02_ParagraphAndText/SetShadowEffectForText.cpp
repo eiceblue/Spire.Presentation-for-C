@@ -1,26 +1,26 @@
 #include "pch.h"
 
-using namespace std;
 using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring outputFile = OutputPath"SetShadowEffect.pptx";
+
+	wstring outputFile = OUTPUTPATH"SetShadowEffect.pptx";
 
 	//Create an instance of presentation document
-	Presentation* ppt = new Presentation();
+	intrusive_ptr<Presentation> ppt = new Presentation();
 
 	//Set background image
-	std::wstring ImageFile = DataPath"bg.png";
-	RectangleF* rect = new RectangleF(0, 0, ppt->GetSlideSize()->GetSize()->GetWidth(), ppt->GetSlideSize()->GetSize()->GetHeight());
+	wstring ImageFile = DATAPATH"bg.png";
+	intrusive_ptr<RectangleF> rect = new RectangleF(0, 0, ppt->GetSlideSize()->GetSize()->GetWidth(), ppt->GetSlideSize()->GetSize()->GetHeight());
 	ppt->GetSlides()->GetItem(0)->GetShapes()->AppendEmbedImage(ShapeType::Rectangle, ImageFile.c_str(), rect);
 	ppt->GetSlides()->GetItem(0)->GetShapes()->GetItem(0)->GetLine()->GetFillFormat()->GetSolidFillColor()->SetColor(Color::GetFloralWhite());
 
 	//Get reference of the slide
-	ISlide* slide = ppt->GetSlides()->GetItem(0);
+	intrusive_ptr<ISlide> slide = ppt->GetSlides()->GetItem(0);
 
 	//Add a new rectangle shape to the first slide
-	IAutoShape* shape = slide->GetShapes()->AppendShape(ShapeType::Rectangle, new RectangleF(120, 100, 450, 200));
+	intrusive_ptr<IAutoShape> shape = slide->GetShapes()->AppendShape(ShapeType::Rectangle, new RectangleF(120, 100, 450, 200));
 	shape->GetFill()->SetFillType(FillFormatType::None);
 
 	//Add the text to the shape and set the font for the text
@@ -30,8 +30,11 @@ int main()
 	shape->GetTextFrame()->GetParagraphs()->GetItem(0)->GetTextRanges()->GetItem(0)->GetFill()->SetFillType(FillFormatType::Solid);
 	shape->GetTextFrame()->GetParagraphs()->GetItem(0)->GetTextRanges()->GetItem(0)->GetFill()->GetSolidColor()->SetColor(Color::GetBlack());
 
+	////Add inner shadow and set all necessary parameters
+	//InnerShadowEffect Shadow = InnerShadowEffect();
+
 	//Add outer shadow and set all necessary parameters
-	OuterShadowEffect* Shadow = new OuterShadowEffect();
+	intrusive_ptr<OuterShadowEffect> Shadow = new OuterShadowEffect();
 
 	Shadow->SetBlurRadius(0);
 	Shadow->SetDirection(50);
@@ -43,6 +46,5 @@ int main()
 
 	//Save the document
 	ppt->SaveToFile(outputFile.c_str(), FileFormat::Pptx2013);
-	delete ppt;
-
 }
+

@@ -5,16 +5,16 @@ using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring inputFile = DataPath"SetChartDataNumberFormat.pptx";
-	std::wstring outputFile = OutputPath"SetChartDataNumberFormat.pptx";
+	wstring inputFile = DATAPATH"SetChartDataNumberFormat.pptx";
+	wstring outputFile = OUTPUTPATH"SetChartDataNumberFormat.pptx";
 
 	//Create a PPT document
-	Presentation* ppt = new Presentation();
+	intrusive_ptr<Presentation> ppt = new Presentation();
 	//Load the file from disk.
 	ppt->LoadFromFile(inputFile.c_str());
 
 	//Get the chart.
-	IChart* chart = dynamic_cast<IChart*>(ppt->GetSlides()->GetItem(0)->GetShapes()->GetItem(0));
+	intrusive_ptr<IChart> chart = Object::Dynamic_cast<IChart>(ppt->GetSlides()->GetItem(0)->GetShapes()->GetItem(0));
 
 	//Set the number format for Axis
 	chart->GetPrimaryValueAxis()->SetNumberFormat(L"#,##0.00");
@@ -33,5 +33,4 @@ int main()
 
 	//Save to file.
 	ppt->SaveToFile(outputFile.c_str(), FileFormat::Pptx2013);
-	delete ppt;
 }

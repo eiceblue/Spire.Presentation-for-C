@@ -5,19 +5,19 @@ using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring inputFile = DataPath"Template_Ppt_2.pptx";
-	std::wstring outputFile = OutputPath"SetPositionOfChartDataLabels.pptx";
+	wstring inputFile = DATAPATH"Template_Ppt_2.pptx";
+	wstring outputFile = OUTPUTPATH"SetPositionOfChartDataLabels.pptx";
 
 	//Create a PPT document
-	Presentation* ppt = new Presentation();
+	intrusive_ptr<Presentation> ppt = new Presentation();
 	//Load the file from disk.
 	ppt->LoadFromFile(inputFile.c_str());
 
 	//Get the chart.
-	IChart* chart = dynamic_cast<IChart*>(ppt->GetSlides()->GetItem(0)->GetShapes()->GetItem(0));
+	intrusive_ptr<IChart> chart = Object::Dynamic_cast<IChart>(ppt->GetSlides()->GetItem(0)->GetShapes()->GetItem(0));
 
 	//Add data label to chart and set its id.
-	ChartDataLabel* label1 = chart->GetSeries()->GetItem(0)->GetDataLabels()->Add();
+	intrusive_ptr<ChartDataLabel> label1 = chart->GetSeries()->GetItem(0)->GetDataLabels()->Add();
 	label1->SetID(0);
 
 	//Set the default position of data label. This position is relative to the data markers.
@@ -50,5 +50,4 @@ int main()
 
 	//Save to file.
 	ppt->SaveToFile(outputFile.c_str(), FileFormat::Pptx2013);
-	delete ppt;
 }

@@ -5,21 +5,21 @@ using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring inputFile = DataPath"AddNote.pptx";
-	std::wstring outputFile = OutputPath"AddNote.pptx";
+	wstring inputFile = DATAPATH"AddNote.pptx";
+	wstring outputFile = OUTPUTPATH"AddNote.pptx";
 
 	//Create a PPT document
-	Presentation* ppt = new Presentation();
+	intrusive_ptr<Presentation> ppt = new Presentation();
 	//Load the file from disk.
 	ppt->LoadFromFile(inputFile.c_str());
 
-	ISlide* slide = ppt->GetSlides()->GetItem(0);
+	intrusive_ptr<ISlide> slide = ppt->GetSlides()->GetItem(0);
 
 	//Add note slide
-	NotesSlide* notesSlide = slide->AddNotesSlide();
+	intrusive_ptr<NotesSlide> notesSlide = slide->AddNotesSlide();
 
 	//Add paragraph in the notesSlide
-	TextParagraph* paragraph = new TextParagraph();
+	intrusive_ptr<TextParagraph> paragraph = new TextParagraph();
 	paragraph->SetText(L"Tips for making effective presentations:");
 	notesSlide->GetNotesTextFrame()->GetParagraphs()->Append(paragraph);
 
@@ -46,5 +46,4 @@ int main()
 
 	//Save to file.
 	ppt->SaveToFile(outputFile.c_str(), FileFormat::Pptx2013);
-	delete ppt;
 }

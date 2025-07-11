@@ -1,22 +1,22 @@
 #include "pch.h"
 
-using namespace std;
 using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring outputFile = OutputPath"CloneRowAndColumn.pptx";
 
-	Presentation* presentation = new Presentation();
+	wstring outputFile = OUTPUTPATH"CloneRowAndColumn.pptx";
+
+	intrusive_ptr<Presentation> presentation = new Presentation();
 	// Access first slide
-	ISlide* sld = presentation->GetSlides()->GetItem(0);
+	intrusive_ptr<ISlide> sld = presentation->GetSlides()->GetItem(0);
 
 	// Define columns with widths and rows with heights
-	std::vector<double> widths = { 110, 110, 110 };
-	std::vector<double> heights = { 50, 30, 30, 30, 30 };
+	vector<double> widths = { 110, 110, 110 };
+	vector<double> heights = { 50, 30, 30, 30, 30 };
 
 	// Add table shape to slide
-	ITable* table = presentation->GetSlides()->GetItem(0)->GetShapes()->AppendTable(presentation->GetSlideSize()->GetSize()->GetWidth() / 2 - 275, 90, widths, heights);
+	intrusive_ptr<ITable> table = presentation->GetSlides()->GetItem(0)->GetShapes()->AppendTable(presentation->GetSlideSize()->GetSize()->GetWidth() / 2 - 275, 90, widths, heights);
 
 	// Add text to the row 1 cell 1
 	table->GetItem(0, 0)->GetTextFrame()->SetText(L"Row 1 Cell 1");
@@ -43,5 +43,5 @@ int main()
 	table->GetColumnsList()->Insert(3, table->GetColumnsList()->GetItem(1));
 
 	presentation->SaveToFile(outputFile.c_str(), FileFormat::Pptx2010);
-	delete presentation;
+	
 }

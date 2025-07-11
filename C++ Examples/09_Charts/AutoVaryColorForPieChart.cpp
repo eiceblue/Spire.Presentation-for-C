@@ -6,14 +6,14 @@ using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring outputFile = OutputPath"AutoVaryColorForPieChart.pptx";
+	wstring outputFile = OUTPUTPATH"AutoVaryColorForPieChart.pptx";
 
 	//Create a PPT document
-	Presentation* ppt = new Presentation();
+	intrusive_ptr<Presentation> ppt = new Presentation();
 
-	RectangleF* rect1 = new RectangleF(40, 100, 550, 320);
+	intrusive_ptr<RectangleF> rect1 = new RectangleF(40, 100, 550, 320);
 	//Add a pie chart
-	IChart* chart = ppt->GetSlides()->GetItem(0)->GetShapes()->AppendChart(ChartType::Pie, rect1, false);
+	intrusive_ptr<IChart> chart = ppt->GetSlides()->GetItem(0)->GetShapes()->AppendChart(ChartType::Pie, rect1, false);
 	chart->GetChartTitle()->GetTextProperties()->SetText(L"Sales by Quarter");
 	chart->GetChartTitle()->GetTextProperties()->SetIsCentered(true);
 	chart->GetChartTitle()->SetHeight(30);
@@ -33,6 +33,7 @@ int main()
 	chart->GetCategories()->SetCategoryLabels(chart->GetChartData()->GetItem(L"A2", L"A5"));
 	chart->GetSeries()->GetItem(0)->SetValues(chart->GetChartData()->GetItem(L"B2", L"B5"));
 
+
 	//Set whether auto vary color, default value is true
 	chart->GetSeries()->GetItem(0)->SetIsVaryColor(false);
 
@@ -40,5 +41,4 @@ int main()
 
 	//Save to file.
 	ppt->SaveToFile(outputFile.c_str(), FileFormat::Pptx2010);
-	delete ppt;
 }

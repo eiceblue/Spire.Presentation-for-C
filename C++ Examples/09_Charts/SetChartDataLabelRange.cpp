@@ -5,16 +5,16 @@ using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring outputFile = OutputPath"SetChartDataLabelRange.pptx";
+	wstring outputFile = OUTPUTPATH"SetChartDataLabelRange.pptx";
 
 	//Create a PPT document
-	Presentation* ppt = new Presentation();
+	intrusive_ptr<Presentation> ppt = new Presentation();
 	//Add a ColumnStacked chart
-	IChart* chart = ppt->GetSlides()->GetItem(0)->GetShapes()->
+	intrusive_ptr<IChart> chart = ppt->GetSlides()->GetItem(0)->GetShapes()->
 		AppendChart(ChartType::ColumnStacked, new RectangleF(100, 100, 500, 400));
 
 	//Set data for the chart
-	CellRange* cellRange = chart->GetChartData()->GetItem(L"F1");
+	intrusive_ptr<CellRange> cellRange = chart->GetChartData()->GetItem(L"F1");
 	cellRange->SetText(L"labelA");
 	cellRange = chart->GetChartData()->GetItem(L"F2");
 	cellRange->SetText(L"labelB");
@@ -27,7 +27,7 @@ int main()
 	chart->GetSeries()->GetItem(0)->SetDataLabelRanges(chart->GetChartData()->GetItem(L"F1", L"F4"));
 
 	//Add data label
-	ChartDataLabel* dataLabel1 = chart->GetSeries()->GetItem(0)->GetDataLabels()->Add();
+	intrusive_ptr<ChartDataLabel> dataLabel1 = chart->GetSeries()->GetItem(0)->GetDataLabels()->Add();
 	dataLabel1->SetID(0);
 	//Show the value
 	dataLabel1->SetLabelValueVisible(false);
@@ -36,5 +36,4 @@ int main()
 
 	//Save to file.
 	ppt->SaveToFile(outputFile.c_str(), FileFormat::Pptx2010);
-	delete ppt;
 }

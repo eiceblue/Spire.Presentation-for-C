@@ -5,27 +5,25 @@ using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring inputFile = DataPath"linkedSlide.pptx";
-	std::wstring outputFile = OutputPath"GetLinkedSlide.txt";
+	wstring inputFile = DATAPATH"linkedSlide.pptx";
+	wstring outputFile = OUTPUTPATH"GetLinkedSlide.txt";
 
 	//Create a PPT document
-	Presentation* ppt = new Presentation();
+	intrusive_ptr<Presentation> ppt = new Presentation();
 	//Load the file from disk.
 	ppt->LoadFromFile(inputFile.c_str());
 
 	//Get the second slide
-	ISlide* slide = ppt->GetSlides()->GetItem(1);
+	intrusive_ptr<ISlide> slide = ppt->GetSlides()->GetItem(1);
 
 	//Get the first shape of the second slide
-	IAutoShape* shape = dynamic_cast<IAutoShape*>(slide->GetShapes()->GetItem(0));
+	intrusive_ptr<IAutoShape> shape = Object::Dynamic_cast<IAutoShape>(slide->GetShapes()->GetItem(0));
 	wofstream outFile(outputFile);
 	//Get the linked slide index
 	if (shape->GetClick()->GetActionType() == HyperlinkActionType::GotoSlide)
 	{
-		ISlide* targetSlide = shape->GetClick()->GetTargetSlide();
+		intrusive_ptr<ISlide> targetSlide = shape->GetClick()->GetTargetSlide();
 		outFile << "Linked slide number = " << targetSlide->GetSlideNumber() << endl;
 	}
 	outFile.close();
-	delete ppt;
-
 }

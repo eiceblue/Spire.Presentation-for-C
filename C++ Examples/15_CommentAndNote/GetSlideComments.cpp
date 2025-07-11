@@ -5,11 +5,11 @@ using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring inputFile = DataPath"Comments.pptx";
-	std::wstring outputFile = OutputPath"GetSlideComments.txt";
+	wstring inputFile = DATAPATH"Comments.pptx";
+	wstring outputFile = OUTPUTPATH"GetSlideComments.txt";
 
 	//Create a PPT document
-	Presentation* ppt = new Presentation();
+	intrusive_ptr<Presentation> ppt = new Presentation();
 	//Load the file from disk.
 	ppt->LoadFromFile(inputFile.c_str());
 
@@ -18,11 +18,11 @@ int main()
 	//Loop through comments
 	for (int i = 0; i < ppt->GetCommentAuthors()->GetCount(); i++)
 	{
-		ICommentAuthor* commentAuthor = ppt->GetCommentAuthors()->GetItem(i);
+		intrusive_ptr<ICommentAuthor> commentAuthor = ppt->GetCommentAuthors()->GetItem(i);
 		for (int j = 0; j < commentAuthor->GetCommentsList()->GetCount(); j++)
 		{
 			//Get comment information
-			Comment* comment = commentAuthor->GetCommentsList()->GetItem(j);
+			intrusive_ptr<Comment> comment = commentAuthor->GetCommentsList()->GetItem(j);
 
 			outFile << "Comment text : " << comment->GetText() << endl;
 			outFile << "Comment author : " << comment->GetAuthorName() << endl;
@@ -30,5 +30,4 @@ int main()
 		}
 	}
 	outFile.close();
-	delete ppt;
 }

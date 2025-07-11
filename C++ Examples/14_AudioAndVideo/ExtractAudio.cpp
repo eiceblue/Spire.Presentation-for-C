@@ -1,4 +1,3 @@
-
 #include "pch.h"
 
 using namespace std;
@@ -6,22 +5,21 @@ using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring inputFile = DataPath"audio.pptx";
-	std::wstring outputFile = OutputPath"ExtractAudio.wav";
-	//Load a PPT document
-	Presentation* presentation = new Presentation();
+	wstring inputFile = DATAPATH"audio.pptx";
+	wstring outputFile = OUTPUTPATH"ExtractAudio.wav";
+	intrusive_ptr<Presentation> presentation = new Presentation();
 	presentation->LoadFromFile(inputFile.c_str());
 
-	ShapeCollection* shapes = presentation->GetSlides()->GetItem(0)->GetShapes();
+	intrusive_ptr<ShapeCollection> shapes = presentation->GetSlides()->GetItem(0)->GetShapes();
 	int index = 1;
 	for (int i = 0; i < shapes->GetCount(); i++)
 	{
-		if (dynamic_cast<IAudio*>(shapes->GetItem(i)) != nullptr)
+		
+		if (Object::CheckType<IAudio> (shapes->GetItem(i)))
 		{
-			IAudio* audio = dynamic_cast<IAudio*>(shapes->GetItem(i));
+			intrusive_ptr<IAudio> audio = Object::Dynamic_cast<IAudio>(shapes->GetItem(i));
 			audio->GetData()->SaveToFile(outputFile.c_str());
 			index++;
 		}
 	}
-	delete presentation;
 }

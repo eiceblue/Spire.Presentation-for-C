@@ -1,22 +1,21 @@
 #include "pch.h"
 
-using namespace std;
 using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring outputFile = OutputPath"SetLineJoinStyles.pptx";
+	wstring outputFile = OUTPUTPATH"SetLineJoinStyles.pptx";
 
 	//Create a PPT document
-	Presentation* presentation = new Presentation();
+	intrusive_ptr<Presentation> presentation = new Presentation();
 
 	//Get the first slide
-	ISlide* slide = presentation->GetSlides()->GetItem(0);
+	intrusive_ptr<ISlide> slide = presentation->GetSlides()->GetItem(0);
 
 	//Add three shapes
-	IAutoShape* shape1 = slide->GetShapes()->AppendShape(ShapeType::Rectangle, new RectangleF(50, 150, 150, 50));
-	IAutoShape* shape2 = slide->GetShapes()->AppendShape(ShapeType::Rectangle, new RectangleF(250, 150, 150, 50));
-	IAutoShape* shape3 = slide->GetShapes()->AppendShape(ShapeType::Rectangle, new RectangleF(450, 150, 150, 50));
+	intrusive_ptr<IAutoShape> shape1 = slide->GetShapes()->AppendShape(ShapeType::Rectangle, new RectangleF(50, 150, 150, 50));
+	intrusive_ptr<IAutoShape> shape2 = slide->GetShapes()->AppendShape(ShapeType::Rectangle, new RectangleF(250, 150, 150, 50));
+	intrusive_ptr<IAutoShape> shape3 = slide->GetShapes()->AppendShape(ShapeType::Rectangle, new RectangleF(450, 150, 150, 50));
 
 	//Fill shapes
 	shape1->GetFill()->SetFillType(FillFormatType::Solid);
@@ -51,6 +50,5 @@ int main()
 
 	//Save the document
 	presentation->SaveToFile(outputFile.c_str(), FileFormat::Pptx2013);
-	delete presentation;
-
 }
+

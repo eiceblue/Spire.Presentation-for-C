@@ -1,34 +1,33 @@
 #include "pch.h"
 
-using namespace std;
 using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring inputFile = DataPath"Template_Az.pptx";
-	std::wstring outputFile = OutputPath"SuperscriptAndSubscript.pptx";
+	wstring inputFile = DATAPATH"Template_Az.pptx";
+	wstring outputFile = OUTPUTPATH"SuperscriptAndSubscript.pptx";
 
 	//Create a PPT document
-	Presentation* presentation = new Presentation();
+	intrusive_ptr<Presentation> presentation = new Presentation();
 
 	//Load PPT file from disk
 	presentation->LoadFromFile(inputFile.c_str());
 	//Get the first slide
-	ISlide* slide = presentation->GetSlides()->GetItem(0);
+	intrusive_ptr<ISlide> slide = presentation->GetSlides()->GetItem(0);
 	//Add a shape 
-	IAutoShape* shape = presentation->GetSlides()->GetItem(0)->GetShapes()->AppendShape(ShapeType::Rectangle, new RectangleF(150, 100, 200, 50));
+	intrusive_ptr<IAutoShape> shape = presentation->GetSlides()->GetItem(0)->GetShapes()->AppendShape(ShapeType::Rectangle, new RectangleF(150, 100, 200, 50));
 	shape->GetShapeStyle()->GetLineColor()->SetColor(Color::GetWhite());
 	shape->GetFill()->SetFillType(FillFormatType::None);
 	shape->GetTextFrame()->GetParagraphs()->Clear();
 
 	shape->AppendTextFrame(L"Test");
-	TextRange* tr = new TextRange(L"superscript");
+	intrusive_ptr<TextRange> tr = new TextRange(L"superscript");
 	shape->GetTextFrame()->GetParagraphs()->GetItem(0)->GetTextRanges()->Append(tr);
 
 	//Set superscript text
 	shape->GetTextFrame()->GetParagraphs()->GetItem(0)->GetTextRanges()->GetItem(1)->GetFormat()->SetScriptDistance(30);
 
-	TextRange* textRange = shape->GetTextFrame()->GetParagraphs()->GetItem(0)->GetTextRanges()->GetItem(0);
+	intrusive_ptr<TextRange> textRange = shape->GetTextFrame()->GetParagraphs()->GetItem(0)->GetTextRanges()->GetItem(0);
 	textRange->GetFill()->SetFillType(FillFormatType::Solid);
 	textRange->GetFill()->GetSolidColor()->SetColor(Color::GetBlack());
 	textRange->SetFontHeight(20);
@@ -64,6 +63,5 @@ int main()
 	textRange->SetLatinFont(new TextFont(L"Lucida Sans Unicode"));
 
 	presentation->SaveToFile(outputFile.c_str(), FileFormat::Pptx2013);
-	delete presentation;
-
 }
+

@@ -1,15 +1,14 @@
 #include "pch.h"
 
-using namespace std;
 using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring inputFile = DataPath"Animation.pptx";
-	std::wstring outputFile = OutputPath"SetAnimationForAnimateText.pptx";
+	wstring inputFile = DATAPATH"Animation.pptx";
+	wstring outputFile = OUTPUTPATH"SetAnimationForAnimateText.pptx";
 
 	//Create an instance of presentation document
-	Presentation* ppt = new Presentation();
+	intrusive_ptr<Presentation> ppt = new Presentation();
 	//Load file
 	ppt->LoadFromFile(inputFile.c_str());
 
@@ -21,6 +20,5 @@ int main()
 
 	//Save the document
 	ppt->SaveToFile(outputFile.c_str(), FileFormat::Pptx2013);
-	delete ppt;
-
 }
+

@@ -1,20 +1,19 @@
 #include "pch.h"
 
-using namespace std;
 using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring inputFile = DataPath"Animation.pptx";
-	std::wstring outputFile = OutputPath"DurationAndDelayTime.pptx";
+	wstring inputFile = DATAPATH"Animation.pptx";
+	wstring outputFile = OUTPUTPATH"DurationAndDelayTime.pptx";
 
 	//Create an instance of presentation document
-	Presentation* presentation = new Presentation();
+	intrusive_ptr<Presentation> presentation = new Presentation();
 
 	presentation->LoadFromFile(inputFile.c_str());
 	//Get the first slide
-	ISlide* slide = presentation->GetSlides()->GetItem(0);
-	AnimationEffectCollection* animations = slide->GetTimeline()->GetMainSequence();
+	intrusive_ptr<ISlide> slide = presentation->GetSlides()->GetItem(0);
+	intrusive_ptr<AnimationEffectCollection> animations = slide->GetTimeline()->GetMainSequence();
 
 	//Get duration time of animation
 	float durationTime = animations->GetItem(0)->GetTiming()->GetDuration();
@@ -30,6 +29,5 @@ int main()
 
 	//Save to file.
 	presentation->SaveToFile(outputFile.c_str(), FileFormat::Pptx2013);
-	delete presentation;
-
 }
+

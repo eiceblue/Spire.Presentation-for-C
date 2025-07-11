@@ -6,16 +6,16 @@ using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring inputFile = DataPath"ChangeTextFontInChart.pptx";
-	std::wstring outputFile = OutputPath"ChangeTextFontInChart.pptx";
+	wstring inputFile = DATAPATH"ChangeTextFontInChart.pptx";
+	wstring outputFile = OUTPUTPATH"ChangeTextFontInChart.pptx";
 
 	//Create a PPT document
-	Presentation* presentation = new Presentation();
+	intrusive_ptr<Presentation> presentation = new Presentation();
 	//Load the file from disk.
 	presentation->LoadFromFile(inputFile.c_str());
 
 	//Get chart on the first slide
-	IChart* chart = dynamic_cast<IChart*>(presentation->GetSlides()
+	intrusive_ptr<IChart> chart = Object::Dynamic_cast<IChart>(presentation->GetSlides()
 		->GetItem(0)->GetShapes()->GetItem(0));
 
 	//Change the font of title
@@ -35,5 +35,4 @@ int main()
 
 	//Save to file.
 	presentation->SaveToFile(outputFile.c_str(), FileFormat::Pptx2010);
-	delete presentation;
 }

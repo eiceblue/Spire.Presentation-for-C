@@ -5,18 +5,16 @@ using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring inputFile = DataPath"Conversion.pptx";
-	std::wstring outputFile = OutputPath"Image/ToSpecificSizeImage.png";
+	wstring inputFile = DATAPATH"Conversion.pptx";
+	wstring outputFile = OUTPUTPATH"Image/ToSpecificSizeImage.png";
 
 	//Create a PPT document
-	Presentation* ppt = new Presentation();
+	intrusive_ptr<Presentation> ppt = new Presentation();
 	//Load the file from disk.
 	ppt->LoadFromFile(inputFile.c_str());
 
-	//Save the first slide to Image and set the image size to 600*400
-	Stream* stream = ppt->GetSlides()->GetItem(0)->SaveAsImage(600, 400);
+	//Save the first slide to Image and set the image size to intrusive_ptr<600>400
+	intrusive_ptr<Stream> stream = ppt->GetSlides()->GetItem(0)->SaveAsImage(600, 400);
 	stream->Save(outputFile.c_str());
-
-	delete ppt;
 
 }

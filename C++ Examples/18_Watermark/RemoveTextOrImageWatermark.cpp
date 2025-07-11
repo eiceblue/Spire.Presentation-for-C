@@ -1,15 +1,14 @@
 #include "pch.h"
 
-using namespace std;
 using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring inputFile = DataPath"RemoveTextAndImageWatermarks.pptx";
-	std::wstring outputFile = OutputPath"RemoveTextAndImageWatermarks.pptx";
+	wstring inputFile = DATAPATH"RemoveTextAndImageWatermarks.pptx";
+	wstring outputFile = OUTPUTPATH"RemoveTextAndImageWatermarks.pptx";
 
 	//Create a PowerPoint document.
-	Presentation* presentation = new Presentation();
+	intrusive_ptr<Presentation> presentation = new Presentation();
 
 	//Load the file from disk.
 	presentation->LoadFromFile(inputFile.c_str());
@@ -19,9 +18,11 @@ int main()
 	{
 		for (int j = 0; j < presentation->GetSlides()->GetItem(i)->GetShapes()->GetCount(); j++)
 		{
-			if (dynamic_cast<IAutoShape*>(presentation->GetSlides()->GetItem(i)->GetShapes()->GetItem(j)) != nullptr)
+			
+			if (Object::CheckType<IAutoShape>(presentation->GetSlides()->GetItem(i)->GetShapes()->GetItem(j)))
 			{
-				IAutoShape* shape = dynamic_cast<IAutoShape*>(presentation->GetSlides()->GetItem(i)->GetShapes()->GetItem(j));
+				intrusive_ptr<IAutoShape> shape = Object::Dynamic_cast<IAutoShape> (presentation->GetSlides()->GetItem(i)->GetShapes()->GetItem(j));
+
 				std::wstring temp = shape->GetTextFrame()->GetText();
 				std::string::size_type pos = temp.find(L"E-iceblue");
 				if (pos != string::npos)
@@ -38,5 +39,7 @@ int main()
 	}
 	//Save to file.
 	presentation->SaveToFile(outputFile.c_str(), FileFormat::Pptx2013);
-	delete presentation;
+	
 }
+
+

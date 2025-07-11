@@ -1,26 +1,25 @@
 #include "pch.h"
 
-using namespace std;
 using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring inputFile = DataPath"Bullets2.pptx";
-	std::wstring outputFile = OutputPath"MultipleLevelBullets.pptx";
+	wstring inputFile = DATAPATH"Bullets2.pptx";
+	wstring outputFile = OUTPUTPATH"MultipleLevelBullets.pptx";
 
 	//Create a PPT document
-	Presentation* presentation = new Presentation();
+	intrusive_ptr<Presentation> presentation = new Presentation();
 
 	//Load PPT file from disk
 	presentation->LoadFromFile(inputFile.c_str());
 	//Get the first slide
-	ISlide* slide = presentation->GetSlides()->GetItem(0);
+	intrusive_ptr<ISlide> slide = presentation->GetSlides()->GetItem(0);
 
 	//Access the first placeholder in the slide and typecasting it as AutoShape
-	ITextFrameProperties* tf1 = (dynamic_cast<IAutoShape*>(slide->GetShapes()->GetItem(1)))->GetTextFrame();
+	intrusive_ptr<ITextFrameProperties> tf1 = (Object::Dynamic_cast<IAutoShape>(slide->GetShapes()->GetItem(1)))->GetTextFrame();
 
 	//Access the first Paragraph and set bullet style
-	TextParagraph* para = tf1->GetParagraphs()->GetItem(0);
+	intrusive_ptr<TextParagraph> para = tf1->GetParagraphs()->GetItem(0);
 	para->SetBulletType(TextBulletType::Symbol);
 	para->SetBulletChar(8226);
 	para->SetDepth(0);
@@ -45,6 +44,6 @@ int main()
 	para->SetDepth(3);
 
 	presentation->SaveToFile(outputFile.c_str(), FileFormat::Pptx2013);
-	delete presentation;
 
 }
+

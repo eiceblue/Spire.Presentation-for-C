@@ -1,28 +1,27 @@
 #include "pch.h"
 
-using namespace std;
 using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring inputFile = DataPath"Titles.pptx";
-	std::wstring outputFile = OutputPath"GetAllTitles.txt";
+	wstring inputFile = DATAPATH"Titles.pptx";
+	wstring outputFile = OUTPUTPATH"GetAllTitles.txt";
 
 	wofstream outFile(outputFile, ios::out);
 
 	//Create an instance of presentation document
-	Presentation* ppt = new Presentation();
+	intrusive_ptr<Presentation> ppt = new Presentation();
 	//Load file
 	ppt->LoadFromFile(inputFile.c_str());
 
 	//Instantiate a list of IShape objects
-	std::vector<IShape*> shapelist;
+	std::vector<intrusive_ptr<IShape>> shapelist;
 	//Loop through all sildes and all shapes on each slide
 	for (int s = 0; s < ppt->GetSlides()->GetCount(); s++)
 	{
-		ISlide* slide = ppt->GetSlides()->GetItem(s);
+		intrusive_ptr<ISlide> slide = ppt->GetSlides()->GetItem(s);
 		for (int i = 0; i < slide->GetShapes()->GetCount(); i++) {
-			IShape* shape = slide->GetShapes()->GetItem(i);
+			intrusive_ptr<IShape> shape = slide->GetShapes()->GetItem(i);
 			if (shape->GetPlaceholder() != nullptr)
 			{
 				//Get all titles
@@ -46,11 +45,11 @@ int main()
 	outFile << "Below are all the obtained titles:" << endl;
 	for (int i = 0; i < shapelist.size(); i++)
 	{
-		IAutoShape* shape1 = dynamic_cast<IAutoShape*>(shapelist[i]);
+		intrusive_ptr<IAutoShape> shape1 = Object::Dynamic_cast<IAutoShape>(shapelist[i]);
 		outFile << shape1->GetTextFrame()->GetText() << endl;
 	}
 
 	//Save to the Text file
 	outFile.close();
-	delete ppt;
 }
+

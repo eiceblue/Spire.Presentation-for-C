@@ -6,20 +6,20 @@ using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring outputFile = OutputPath"CombinationChart.pptx";
+	wstring outputFile = OUTPUTPATH"CombinationChart.pptx";
 
 	//Create a PPT document
-	Presentation* ppt = new Presentation();
+	intrusive_ptr<Presentation> ppt = new Presentation();
 
 	//Set background image
-	std::wstring ImageFile = DataPath"bg.png";
-	RectangleF* rect2 = new RectangleF(0, 0, ppt->GetSlideSize()->GetSize()->GetWidth(), ppt->GetSlideSize()->GetSize()->GetHeight());
+	std::wstring ImageFile = DATAPATH"bg.png";
+	intrusive_ptr<RectangleF> rect2 = new RectangleF(0, 0, ppt->GetSlideSize()->GetSize()->GetWidth(), ppt->GetSlideSize()->GetSize()->GetHeight());
 	ppt->GetSlides()->GetItem(0)->GetShapes()->AppendEmbedImage(ShapeType::Rectangle, ImageFile.c_str(), rect2);
 	ppt->GetSlides()->GetItem(0)->GetShapes()->GetItem(0)->GetLine()->GetFillFormat()->GetSolidFillColor()->SetKnownColor(KnownColors::FloralWhite);
 
 	//Insert a column clustered chart
-	RectangleF* rect = new RectangleF(100, 100, 550, 320);
-	IChart* chart = ppt->GetSlides()->GetItem(0)->GetShapes()->AppendChart(ChartType::ColumnClustered, rect);
+	intrusive_ptr<RectangleF> rect = new RectangleF(100, 100, 550, 320);
+	intrusive_ptr<IChart> chart = ppt->GetSlides()->GetItem(0)->GetShapes()->AppendChart(ChartType::ColumnClustered, rect);
 
 	//Set chart title
 	chart->GetChartTitle()->GetTextProperties()->SetText(L"Monthly Sales Report");
@@ -82,5 +82,4 @@ int main()
 	chart->SetGapWidth(200);
 	//Save to file.
 	ppt->SaveToFile(outputFile.c_str(), FileFormat::Pptx2010);
-	delete ppt;
 }

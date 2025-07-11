@@ -6,14 +6,14 @@ using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring inputFile = DataPath"PPTSample_N.pptx";
-	std::wstring outputFile = OutputPath"SetGradientBackground.pptx";
+	wstring inputFile = DATAPATH"PPTSample_N.pptx";
+	wstring outputFile = OUTPUTPATH"SetGradientBackground.pptx";
 
-	Presentation* presentation = new Presentation();
+	intrusive_ptr<Presentation> presentation = new Presentation();
 	presentation->LoadFromFile(inputFile.c_str());
 
 	//Get the first slide
-	ISlide* slide = presentation->GetSlides()->GetItem(0);
+	intrusive_ptr<ISlide> slide = presentation->GetSlides()->GetItem(0);
 
 	//Set the background to gradient
 	slide->GetSlideBackground()->SetType(BackgroundType::Custom);
@@ -31,5 +31,4 @@ int main()
 
 	//Save the document
 	presentation->SaveToFile(outputFile.c_str(), FileFormat::Pptx2013);
-	delete presentation;
 }

@@ -1,15 +1,14 @@
 #include "pch.h"
 
-using namespace std;
 using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring inputFile = DataPath"Template_Ppt_1.pptx";
-	std::wstring outputFile = OutputPath"SetTableBorderStyle.pptx";
+	wstring inputFile = DATAPATH"Template_Ppt_1.pptx";
+	wstring outputFile = DATAPATH"SetTableBorderStyle.pptx";
 
 	//Create a PPT document
-	Presentation* presentation = new Presentation();
+	intrusive_ptr<Presentation> presentation = new Presentation();
 
 	//Load the file from disk.
 	presentation->LoadFromFile(inputFile.c_str());
@@ -17,19 +16,20 @@ int main()
 	//Find the table by looping through all the slides, and then set borders for it. 
 	for (int l = 0; l < presentation->GetSlides()->GetCount(); l++)
 	{
-		ISlide* slide = presentation->GetSlides()->GetItem(l);
+		intrusive_ptr<ISlide> slide = presentation->GetSlides()->GetItem(l);
 		for (int s = 0; s < slide->GetShapes()->GetCount(); s++)
 		{
-			IShape* shape = slide->GetShapes()->GetItem(s);
-			if (dynamic_cast<ITable*>(shape) != nullptr)
+			intrusive_ptr<IShape> shape = slide->GetShapes()->GetItem(s);
+		
+			if (Object::CheckType<ITable>(shape))
 			{
-				ITable* table = dynamic_cast<ITable*>(shape);
+				intrusive_ptr<ITable> table = Object::Dynamic_cast<ITable> (shape);
 				for (int i = 0; i < table->GetTableRows()->GetCount(); i++)
 				{
-					TableRow* row = table->GetTableRows()->GetItem(i);
+					intrusive_ptr<TableRow> row = table->GetTableRows()->GetItem(i);
 					for (int j = 0; j < row->GetCount(); j++)
 					{
-						Cell* cell = row->GetItem(j);
+						intrusive_ptr<Cell> cell = row->GetItem(j);
 						cell->GetBorderTop()->SetFillType(FillFormatType::Solid);
 						cell->GetBorderBottom()->SetFillType(FillFormatType::Solid);
 						cell->GetBorderLeft()->SetFillType(FillFormatType::Solid);
@@ -41,5 +41,5 @@ int main()
 	}
 	//Save to file.
 	presentation->SaveToFile(outputFile.c_str(), FileFormat::Pptx2013);
-	delete presentation;
+		
 }

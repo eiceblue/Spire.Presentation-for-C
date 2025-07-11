@@ -1,25 +1,24 @@
 #include "pch.h"
 
-using namespace std;
 using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring inputFile = DataPath"SetAlignmentInTable.pptx";
-	std::wstring outputFile = OutputPath"SetAlignmentInTable.pptx";
+	wstring inputFile = DATAPATH"SetAlignmentInTable.pptx";
+	wstring outputFile = OUTPUTPATH"SetAlignmentInTable.pptx";
 
 	//Create a PPT document
-	Presentation* presentation = new Presentation();
+	intrusive_ptr<Presentation> presentation = new Presentation();
 	presentation->LoadFromFile(inputFile.c_str());
 
-	ITable* table = nullptr;
+	intrusive_ptr<ITable> table = nullptr;
 	for (int s = 0; s < presentation->GetSlides()->GetItem(0)->GetShapes()->GetCount(); s++)
 	{
-		IShape* shape = presentation->GetSlides()->GetItem(0)->GetShapes()->GetItem(s);
-		if (dynamic_cast<ITable*>(shape) != nullptr)
+		intrusive_ptr<IShape> shape = presentation->GetSlides()->GetItem(0)->GetShapes()->GetItem(s);
+		
+		if (Object::CheckType<ITable>(shape))
 		{
-			table = dynamic_cast<ITable*>(shape);
-
+			table = Object::Dynamic_cast<ITable>(shape);
 			//Horizontal Alignment
 			//Set the horizontal alignment for the cells in first column 
 			table->GetItem(0, 1)->GetTextFrame()->GetParagraphs()->GetItem(0)->SetAlignment(TextAlignmentType::Left);
@@ -52,5 +51,5 @@ int main()
 
 	//Save the document
 	presentation->SaveToFile(outputFile.c_str(), FileFormat::Pptx2010);
-	delete presentation;
+		
 }

@@ -5,11 +5,11 @@ using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring inputFile = DataPath"HeaderAndFooter.pptx";
-	std::wstring outputFile = OutputPath"HeaderAndFooter.pptx";
+	wstring inputFile = DATAPATH"HeaderAndFooter.pptx";
+	wstring outputFile = OUTPUTPATH"HeaderAndFooter.pptx";
 
 	//Create a PPT document
-	Presentation* ppt = new Presentation();
+	intrusive_ptr<Presentation> ppt = new Presentation();
 	//Load the file from disk.
 	ppt->LoadFromFile(inputFile.c_str());
 
@@ -27,6 +27,5 @@ int main()
 
 	//Save to file.
 	ppt->SaveToFile(outputFile.c_str(), FileFormat::Pptx2010);
-	delete ppt;
 
 }

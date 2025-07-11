@@ -1,19 +1,19 @@
 #include "pch.h"
 
-using namespace std;
 using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring inputFile = DataPath"Indent.pptx";
-	std::wstring outputFile = OutputPath"Indent.pptx";
+	
+	wstring inputFile = DATAPATH"Indent.pptx";
+	wstring outputFile = OUTPUTPATH"Indent.pptx";
 
 	//Load a PPT document
-	Presentation* presentation = new Presentation();
+	intrusive_ptr<Presentation> presentation = new Presentation();
 	presentation->LoadFromFile(inputFile.c_str());
 
-	IAutoShape* shape = dynamic_cast<IAutoShape*>(presentation->GetSlides()->GetItem(0)->GetShapes()->GetItem(0));
-	ParagraphCollection* paras = shape->GetTextFrame()->GetParagraphs();
+	intrusive_ptr<IAutoShape> shape = Object::Dynamic_cast<IAutoShape>(presentation->GetSlides()->GetItem(0)->GetShapes()->GetItem(0));
+	intrusive_ptr<ParagraphCollection> paras = shape->GetTextFrame()->GetParagraphs();
 
 	//Set the paragraph style for first paragraph
 	paras->GetItem(0)->SetIndent(20);
@@ -28,6 +28,5 @@ int main()
 
 	//Save the document
 	presentation->SaveToFile(outputFile.c_str(), FileFormat::Pptx2010);
-	delete presentation;
 
 }

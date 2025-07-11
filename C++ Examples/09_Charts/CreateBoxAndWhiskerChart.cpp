@@ -6,13 +6,12 @@ using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring outputFile = OutputPath"CreateBoxAndWhiskerChart.pptx";
+	wstring outputFile = OUTPUTPATH"CreateBoxAndWhiskerChart.pptx";
 
 	//Create a PPT document
-	Presentation* ppt = new Presentation();
-
+	intrusive_ptr<Presentation> ppt = new Presentation();
 	// Insert a BoxAndWhisker chart to the first slide 
-	IChart* chart = ppt->GetSlides()->GetItem(0)->GetShapes()->AppendChart(ChartType::BoxAndWhisker, new RectangleF(50, 50, 500, 400), false);
+	intrusive_ptr<IChart> chart = ppt->GetSlides()->GetItem(0)->GetShapes()->AppendChart(ChartType::BoxAndWhisker, new RectangleF(50, 50, 500, 400), false);
 
 	// Series labels
 	std::vector<std::wstring> seriesLabel = { L"Series 1", L"Series 2", L"Series 3" };
@@ -90,5 +89,4 @@ int main()
 
 	//Save to file.
 	ppt->SaveToFile(outputFile.c_str(), FileFormat::Pptx2013);
-	delete ppt;
 }

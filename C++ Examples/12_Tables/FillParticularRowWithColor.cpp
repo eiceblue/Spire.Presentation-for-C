@@ -1,31 +1,29 @@
 #include "pch.h"
 
-using namespace std;
 using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring inputFile = DataPath"Template_Ppt_1.pptx";
-	std::wstring outputFile = OutputPath"FillParticularRowWithColor.pptx";
-
+	wstring inputFile = DATAPATH"Template_Ppt_1.pptx";
+	wstring outputFile = OUTPUTPATH"FillParticularRowWithColor.pptx";
+			
 	//Create a PPT document
-	Presentation* presentation = new Presentation();
+	intrusive_ptr<Presentation> presentation = new Presentation();
 	//Load the file from disk.
 	presentation->LoadFromFile(inputFile.c_str());
 
 	//Fill particular table row with color.
-	ITable* table = nullptr;
+	intrusive_ptr<ITable> table = nullptr;
 	for (int s = 0; s < presentation->GetSlides()->GetItem(0)->GetShapes()->GetCount(); s++)
 	{
-		IShape* shape = presentation->GetSlides()->GetItem(0)->GetShapes()->GetItem(s);
-		if (dynamic_cast<ITable*>(shape) != nullptr)
+		intrusive_ptr<IShape> shape = presentation->GetSlides()->GetItem(0)->GetShapes()->GetItem(s);
+		if (Object::CheckType<ITable>(shape))
 		{
-			table = dynamic_cast<ITable*>(shape);
-
-			TableRow* row = table->GetTableRows()->GetItem(1);
+			table = Object::Dynamic_cast<ITable> (shape);
+			intrusive_ptr<TableRow> row = table->GetTableRows()->GetItem(1);
 			for (int n = 0; n < row->GetCount(); n++)
 			{
-				Cell* cell = row->GetItem(n);
+				intrusive_ptr<Cell> cell = row->GetItem(n);
 				cell->GetFillFormat()->SetFillType(FillFormatType::Solid);
 				cell->GetFillFormat()->GetSolidColor()->SetColor(Color::GetPink());
 			}
@@ -33,5 +31,5 @@ int main()
 	}
 	//Save to file.
 	presentation->SaveToFile(outputFile.c_str(), FileFormat::Pptx2013);
-	delete presentation;
+		
 }

@@ -1,49 +1,49 @@
 #include "pch.h"
 
-using namespace std;
 using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring inputFile = DataPath"Template_Az.pptx";
-	std::wstring outputFile = OutputPath"MultipleParagraphs.pptx";
+
+	wstring inputFile = DATAPATH"Template_Az.pptx";
+	wstring outputFile = OUTPUTPATH"MultipleParagraphs.pptx";
 
 	//Create a PPT document
-	Presentation* presentation = new Presentation();
+	intrusive_ptr<Presentation> presentation = new Presentation();
 
 	//Load PPT file from disk
 	presentation->LoadFromFile(inputFile.c_str());
 	//Access the first slide
-	ISlide* slide = presentation->GetSlides()->GetItem(0);
+	intrusive_ptr<ISlide> slide = presentation->GetSlides()->GetItem(0);
 
 	// Add an AutoShape of rectangle type
-	RectangleF* rec = new RectangleF(presentation->GetSlideSize()->GetSize()->GetWidth() / 2 - 250, 150, 500, 150);
-	IAutoShape* shape = presentation->GetSlides()->GetItem(0)->GetShapes()->AppendShape(ShapeType::Rectangle, rec);
+	intrusive_ptr<RectangleF> rec = new RectangleF(presentation->GetSlideSize()->GetSize()->GetWidth() / 2 - 250, 150, 500, 150);
+	intrusive_ptr<IAutoShape> shape = presentation->GetSlides()->GetItem(0)->GetShapes()->AppendShape(ShapeType::Rectangle, rec);
 
 	// Access TextFrame of the AutoShape
-	ITextFrameProperties* tf = shape->GetTextFrame();
+	intrusive_ptr<ITextFrameProperties> tf = shape->GetTextFrame();
 
 	// Create Paragraphs and TextRanges with different text formats
-	TextParagraph* para0 = tf->GetParagraphs()->GetItem(0);
-	TextRange* textRange1 = new TextRange();
-	TextRange* textRange2 = new TextRange();
+	intrusive_ptr<TextParagraph> para0 = tf->GetParagraphs()->GetItem(0);
+	intrusive_ptr<TextRange> textRange1 = new TextRange();
+	intrusive_ptr<TextRange> textRange2 = new TextRange();
 	para0->GetTextRanges()->Append(textRange1);
 	para0->GetTextRanges()->Append(textRange2);
 
-	TextParagraph* para1 = new TextParagraph();
+	intrusive_ptr<TextParagraph> para1 = new TextParagraph();
 	tf->GetParagraphs()->Append(para1);
-	TextRange* textRange11 = new TextRange();
-	TextRange* textRange12 = new TextRange();
-	TextRange* textRange13 = new TextRange();
+	intrusive_ptr<TextRange> textRange11 = new TextRange();
+	intrusive_ptr<TextRange> textRange12 = new TextRange();
+	intrusive_ptr<TextRange> textRange13 = new TextRange();
 	para1->GetTextRanges()->Append(textRange11);
 	para1->GetTextRanges()->Append(textRange12);
 	para1->GetTextRanges()->Append(textRange13);
 
-	TextParagraph* para2 = new TextParagraph();
+	intrusive_ptr<TextParagraph> para2 = new TextParagraph();
 	tf->GetParagraphs()->Append(para2);
-	TextRange* textRange21 = new TextRange();
-	TextRange* textRange22 = new TextRange();
-	TextRange* textRange23 = new TextRange();
+	intrusive_ptr<TextRange> textRange21 = new TextRange();
+	intrusive_ptr<TextRange> textRange22 = new TextRange();
+	intrusive_ptr<TextRange> textRange23 = new TextRange();
 	para2->GetTextRanges()->Append(textRange21);
 	para2->GetTextRanges()->Append(textRange22);
 	para2->GetTextRanges()->Append(textRange23);
@@ -70,6 +70,5 @@ int main()
 		}
 	}
 	presentation->SaveToFile(outputFile.c_str(), FileFormat::Pptx2013);
-	delete presentation;
-
 }
+

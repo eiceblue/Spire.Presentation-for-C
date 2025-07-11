@@ -1,26 +1,25 @@
 #include "pch.h"
 
-using namespace std;
 using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring inputFile = DataPath"Animations.pptx";
-	std::wstring outputFile = OutputPath"Animations.pptx";
+	wstring inputFile = DATAPATH"Animations.pptx";
+	wstring outputFile = OUTPUTPATH"Animations.pptx";
 
 	//Create a PPT document
-	Presentation* presentation = new Presentation();
+	intrusive_ptr<Presentation> presentation = new Presentation();
 
 	//Load the document from disk
 	presentation->LoadFromFile(inputFile.c_str());
 
 	//Add title
-	RectangleF* rec_title = new RectangleF(50, 200, 200, 50);
-	IAutoShape* shape_title = presentation->GetSlides()->GetItem(0)->GetShapes()->AppendShape(ShapeType::Rectangle, rec_title);
+	intrusive_ptr<RectangleF> rec_title = new RectangleF(50, 200, 200, 50);
+	intrusive_ptr<IAutoShape> shape_title = presentation->GetSlides()->GetItem(0)->GetShapes()->AppendShape(ShapeType::Rectangle, rec_title);
 	shape_title->GetShapeStyle()->GetLineColor()->SetColor(Color::GetTransparent());
 
 	shape_title->GetFill()->SetFillType(FillFormatType::None);
-	TextParagraph* para_title = new TextParagraph();
+	intrusive_ptr<TextParagraph> para_title = new TextParagraph();
 	para_title->SetText(L"Animations:");
 	para_title->SetAlignment(TextAlignmentType::Center);
 	para_title->GetTextRanges()->GetItem(0)->SetLatinFont(new TextFont(L"Myriad Pro Light"));
@@ -34,7 +33,7 @@ int main()
 	presentation->GetSlides()->GetItem(0)->GetSlideShowTransition()->SetType(TransitionType::Circle);
 
 	//Append new shape - Triangle
-	IAutoShape* shape = presentation->GetSlides()->GetItem(0)->GetShapes()->AppendShape(ShapeType::Triangle, new RectangleF(100, 280, 80, 80));
+	intrusive_ptr<IAutoShape> shape = presentation->GetSlides()->GetItem(0)->GetShapes()->AppendShape(ShapeType::Triangle, new RectangleF(100, 280, 80, 80));
 
 	//Set the color of shape
 	shape->GetFill()->SetFillType(FillFormatType::Solid);
@@ -61,6 +60,5 @@ int main()
 
 	//Save the document
 	presentation->SaveToFile(outputFile.c_str(), FileFormat::Pptx2010);
-	delete presentation;
-
 }
+

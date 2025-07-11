@@ -5,22 +5,20 @@ using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring inputFile = DataPath"ToImage.pptx";
-	std::wstring outputFile = OutputPath"Image/ToImage/";
+	wstring inputFile = DATAPATH"ToImage.pptx";
+	wstring outputFile = OUTPUTPATH"Image/ToImage/";
 
 	//Create a PPT document
-	Presentation* ppt = new Presentation();
+	intrusive_ptr<Presentation> ppt = new Presentation();
 	//Load the file from disk.
 	ppt->LoadFromFile(inputFile.c_str());
 
 	//Save PPT document to images
-	SlideCollection* slides = ppt->GetSlides();
+	intrusive_ptr<SlideCollection> slides = ppt->GetSlides();
 	for (int i = 0; i < slides->GetCount(); i++)
 	{
-		ISlide* slide = slides->GetItem(i);
-		Stream* image = slide->SaveAsImage();
+		intrusive_ptr<ISlide> slide = slides->GetItem(i);
+		intrusive_ptr<Stream> image = slide->SaveAsImage();
 		image->Save((outputFile + L"ToImage_img_" + to_wstring(i) + L".png").c_str());
 	}
-
-	delete ppt;
 }

@@ -5,23 +5,22 @@ using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring inputFile = DataPath"Template_Ppt_5.pptx";
-	std::wstring outputFile = OutputPath"ModifyHyperlink.pptx";
+	wstring inputFile = DATAPATH"Template_Ppt_5.pptx";
+	wstring outputFile = OUTPUTPATH"ModifyHyperlink.pptx";
 
 	//Create a PPT document
-	Presentation* ppt = new Presentation();
+	intrusive_ptr<Presentation> ppt = new Presentation();
 
 	ppt->LoadFromFile(inputFile.c_str());
 
-	ISlide* slide = ppt->GetSlides()->GetItem(0);
+	intrusive_ptr<ISlide> slide = ppt->GetSlides()->GetItem(0);
 	//Find the hyperlinks you want to edit.
-	IAutoShape* shape = dynamic_cast<IAutoShape*>(slide->GetShapes()->GetItem(0));
+	intrusive_ptr<IAutoShape> shape = Object::Dynamic_cast<IAutoShape>(slide->GetShapes()->GetItem(0));
 
 	//Edit the link text and the target URL.
 	shape->GetTextFrame()->GetTextRange()->GetClickAction()->SetAddress(L"http://www.e-iceblue.com");
 	shape->GetTextFrame()->GetTextRange()->SetText(L"E-iceblue");
 
 	ppt->SaveToFile(outputFile.c_str(), FileFormat::Pptx2013);
-	delete ppt;
 
 }

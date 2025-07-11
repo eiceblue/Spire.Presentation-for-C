@@ -1,18 +1,17 @@
 #include "pch.h"
 
-using namespace std;
 using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring inputFile = DataPath"SmartArtLinklineOutline.pptx";
-	std::wstring outputFile = OutputPath"SetSmartArtNodeOutline.pptx";
+	wstring inputFile = DATAPATH"SmartArtLinklineOutline.pptx";
+	wstring outputFile = OUTPUTPATH"SetSmartArtNodeOutline.pptx";
 
-	Presentation* ppt = new Presentation();
+	intrusive_ptr<Presentation> ppt = new Presentation();
 	ppt->LoadFromFile(inputFile.c_str());
-	ISmartArt* smartArt = dynamic_cast<ISmartArt*>(ppt->GetSlides()->GetItem(0)->GetShapes()->GetItem(0));
+	intrusive_ptr<ISmartArt> smartArt = Object::Dynamic_cast<ISmartArt>(ppt->GetSlides()->GetItem(0)->GetShapes()->GetItem(0));
 	int count = smartArt->GetNodes()->GetCount();
-	ISmartArtNode* node;
+	intrusive_ptr<ISmartArtNode> node;
 	//Loop through all nodes
 	for (int i = 0; i < count; i++)
 	{
@@ -28,5 +27,5 @@ int main()
 	}
 	//Save to file.
 	ppt->SaveToFile(outputFile.c_str(), FileFormat::Pptx2013);
-	delete ppt;
+				
 }

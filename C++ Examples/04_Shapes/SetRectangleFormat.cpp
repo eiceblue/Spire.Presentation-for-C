@@ -1,18 +1,17 @@
 #include "pch.h"
 
-using namespace std;
 using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring outputFile = OutputPath"SetRectangleFormat.pptx";
+	wstring outputFile = OUTPUTPATH"SetRectangleFormat.pptx";
 
 	//Create a PPT document
-	Presentation* presentation = new Presentation();
+	intrusive_ptr<Presentation> presentation = new Presentation();
 
 	//Add a shape
-	RectangleF* rect = new RectangleF(presentation->GetSlideSize()->GetSize()->GetWidth() / 2 - 100, 100, 200, 100);
-	IAutoShape* shape = presentation->GetSlides()->GetItem(0)->GetShapes()->AppendShape(ShapeType::Rectangle, rect);
+	intrusive_ptr<RectangleF> rect = new RectangleF(presentation->GetSlideSize()->GetSize()->GetWidth() / 2 - 100, 100, 200, 100);
+	intrusive_ptr<IAutoShape> shape = presentation->GetSlides()->GetItem(0)->GetShapes()->AppendShape(ShapeType::Rectangle, rect);
 
 	//Set the fill format of shape
 	shape->GetFill()->SetFillType(FillFormatType::Solid);
@@ -24,5 +23,5 @@ int main()
 
 	//Save the document
 	presentation->SaveToFile(outputFile.c_str(), FileFormat::Pptx2013);
-	delete presentation;
 }
+

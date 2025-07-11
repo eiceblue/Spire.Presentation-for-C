@@ -1,32 +1,34 @@
 #include "pch.h"
 
-using namespace std;
 using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring inputFile = DataPath"PPTSample_1.pptx";
-	std::wstring outputFile = OutputPath"RemoveUnusedLayoutMaster.pptx";
+	wstring inputFile = DATAPATH"PPTSample_1.pptx";
+	wstring outputFile = OUTPUTPATH"RemoveUnusedLayoutMaster.pptx";
 
-	Presentation* ppt = new Presentation();
+	intrusive_ptr<Presentation> ppt = new Presentation();
 	ppt->LoadFromFile(inputFile.c_str());
 
 	//Create an array list
-	std::vector<IActiveSlide*> list;
+	std::vector<long>list;
+
 	for (int i = 0; i < ppt->GetSlides()->GetCount(); i++)
 	{
 		//Get the layout used by slide
-		IActiveSlide* layout = dynamic_cast<IActiveSlide*>(ppt->GetSlides()->GetItem(i)->GetLayout());
-		list.push_back(layout);
+		intrusive_ptr<IActiveSlide> layout = Object::Dynamic_cast<IActiveSlide>(ppt->GetSlides()->GetItem(i)->GetLayout().get());
+		long id = layout->GetSlide()->GetSlideID();
+		list.push_back(id);
 	}
 
 	//Loop through masters and layouts
 	for (int i = 0; i < ppt->GetMasters()->GetCount(); i++)
 	{
-		IMasterLayouts* masterlayouts = ppt->GetMasters()->GetItem(i)->GetLayouts();
+		intrusive_ptr<IMasterLayouts> masterlayouts = ppt->GetMasters()->GetItem(i)->GetLayouts();
 		for (int j = masterlayouts->GetCount() - 1; j >= 0; j--)
 		{
-			if (!(std::find(list.begin(), list.end(), dynamic_cast<IActiveSlide*>(masterlayouts->GetItem(j))) != list.end()))
+			intrusive_ptr<IActiveSlide> master = Object::Dynamic_cast<IActiveSlide>(masterlayouts->GetItem(j));
+			if (std::find(list.begin(), list.end(), master->GetSlide()->GetSlideID()) == list.end())
 			{
 				//Remove unused layout
 				masterlayouts->RemoveMasterLayout(j);
@@ -35,5 +37,5 @@ int main()
 
 	}
 	ppt->SaveToFile(outputFile.c_str(), FileFormat::Pptx2013);
-	delete ppt;
+	
 }

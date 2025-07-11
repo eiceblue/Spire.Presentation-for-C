@@ -1,18 +1,17 @@
 #include "pch.h"
 
-using namespace std;
 using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring inputFile = DataPath"BordersAndShading.pptx";
-	std::wstring outputFile = OutputPath"BordersAndShading.pptx";
+	wstring inputFile = DATAPATH"BordersAndShading.pptx";
+	wstring outputFile = OUTPUTPATH"BordersAndShading.pptx";
 
 	//Load a PPT document
-	Presentation* presentation = new Presentation();
+	intrusive_ptr<Presentation> presentation = new Presentation();
 	presentation->LoadFromFile(inputFile.c_str());
 
-	IAutoShape* shape = dynamic_cast<IAutoShape*>(presentation->GetSlides()
+	intrusive_ptr<IAutoShape> shape = Object::Dynamic_cast<IAutoShape>(presentation->GetSlides()
 		->GetItem(0)->GetShapes()->GetItem(0));
 
 	//Set line color and width of the border
@@ -28,8 +27,8 @@ int main()
 	shape->GetFill()->GetGradient()->GetGradientStops()->Append(0, KnownColors::LightSkyBlue);
 
 	//Set the shadow for the shape
-	//Spire::Presentation::Drawing::OuterShadowEffect* shadow = new Spire::Presentation::Drawing::OuterShadowEffect();
-	OuterShadowEffect* shadow = new OuterShadowEffect();
+	//Spire::Presentation::Drawing::intrusive_ptr<OuterShadowEffect> shadow = new Spire::Presentation::Drawing::OuterShadowEffect();
+	intrusive_ptr<OuterShadowEffect> shadow = new OuterShadowEffect();
 
 	shadow->SetBlurRadius(20);
 	shadow->SetDirection(30);
@@ -39,6 +38,6 @@ int main()
 
 	//Save the document
 	presentation->SaveToFile(outputFile.c_str(), FileFormat::Pptx2007);
-	delete presentation;
+
 
 }

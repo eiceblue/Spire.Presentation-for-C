@@ -6,14 +6,14 @@ using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring outputFile = OutputPath"CreatePieChart.pptx";
+	wstring outputFile = OUTPUTPATH"CreatePieChart.pptx";
 
 	//Create a PPT document
-	Presentation* ppt = new Presentation();
+	intrusive_ptr<Presentation> ppt = new Presentation();
 
 	//Add line markers chart
-	RectangleF* rect1 = new RectangleF(40, 100, 550, 320);
-	IChart* chart = ppt->GetSlides()->GetItem(0)->GetShapes()->AppendChart(ChartType::Pie, rect1, false);
+	intrusive_ptr<RectangleF> rect1 = new RectangleF(40, 100, 550, 320);
+	intrusive_ptr<IChart> chart = ppt->GetSlides()->GetItem(0)->GetShapes()->AppendChart(ChartType::Pie, rect1, false);
 
 	chart->GetChartTitle()->GetTextProperties()->SetText(L"Sales by Quarter");
 	chart->GetChartTitle()->GetTextProperties()->SetIsCentered(true);
@@ -41,7 +41,7 @@ int main()
 	//Add data points to series and fill each data point with different color.
 	for (int i = 0; i < chart->GetSeries()->GetItem(0)->GetValues()->GetCount(); i++)
 	{
-		ChartDataPoint* cdp = new ChartDataPoint(chart->GetSeries()->GetItem(0));
+		intrusive_ptr<ChartDataPoint> cdp = new ChartDataPoint(chart->GetSeries()->GetItem(0));
 		cdp->SetIndex(i);
 		chart->GetSeries()->GetItem(0)->GetDataPoints()->Add(cdp);
 
@@ -61,5 +61,5 @@ int main()
 
 	//Save to file.
 	ppt->SaveToFile(outputFile.c_str(), FileFormat::Pptx2013);
-	delete ppt;
+
 }

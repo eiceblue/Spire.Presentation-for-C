@@ -6,13 +6,13 @@ using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring outputFile = OutputPath"CreateWaterFallChart.pptx";
+	wstring outputFile = OUTPUTPATH"CreateWaterFallChart.pptx";
 
 	//Create a PPT document
-	Presentation* ppt = new Presentation();
+	intrusive_ptr<Presentation> ppt = new Presentation();
 
 	//Create a WaterFall chart to the first slide
-	IChart* chart = ppt->GetSlides()->GetItem(0)->GetShapes()->AppendChart(ChartType::WaterFall, new RectangleF(50, 50, 500, 400), false);
+	intrusive_ptr<IChart> chart = ppt->GetSlides()->GetItem(0)->GetShapes()->AppendChart(ChartType::WaterFall, new RectangleF(50, 50, 500, 400), false);
 
 	//Set series text
 	chart->GetChartData()->GetItem(0, 1)->SetText(L"Series 1");
@@ -41,13 +41,13 @@ int main()
 	chart->GetSeries()->GetItem(0)->SetValues(chart->GetChartData()->GetItem(1, 1, values.size(), 1));
 
 	//Operate the third datapoint of first series
-	ChartDataPoint* chartDataPoint = new ChartDataPoint(chart->GetSeries()->GetItem(0));
+	intrusive_ptr<ChartDataPoint> chartDataPoint = new ChartDataPoint(chart->GetSeries()->GetItem(0));
 	chartDataPoint->SetIndex(2);
 	chartDataPoint->SetSetAsTotal(true);
 	chart->GetSeries()->GetItem(0)->GetDataPoints()->Add(chartDataPoint);
 
 	//Operate the sixth datapoint of first series
-	ChartDataPoint* chartDataPoint2 = new ChartDataPoint(chart->GetSeries()->GetItem(0));
+	intrusive_ptr<ChartDataPoint> chartDataPoint2 = new ChartDataPoint(chart->GetSeries()->GetItem(0));
 	chartDataPoint2->SetIndex(5);
 	chartDataPoint2->SetSetAsTotal(true);
 	chart->GetSeries()->GetItem(0)->GetDataPoints()->Add(chartDataPoint2);
@@ -60,5 +60,4 @@ int main()
 
 	//Save to file.
 	ppt->SaveToFile(outputFile.c_str(), FileFormat::Pptx2013);
-	delete ppt;
 }

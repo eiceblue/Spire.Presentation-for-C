@@ -1,15 +1,14 @@
 #include "pch.h"
 
-using namespace std;
 using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring inputFile = DataPath"Properties.pptx";
-	std::wstring outputFile = OutputPath"Properties.pptx";
+	wstring inputFile = DATAPATH"Properties.pptx";
+	wstring outputFile = OUTPUTPATH"Properties.pptx";
 
 	//Create a PPT document
-	Presentation* presentation = new Presentation();
+	intrusive_ptr<Presentation> presentation = new Presentation();
 	presentation->LoadFromFile(inputFile.c_str());
 
 	//Set the DocumentProperty of PPT document
@@ -24,6 +23,6 @@ int main()
 
 	//Save the document
 	presentation->SaveToFile(outputFile.c_str(), FileFormat::Pptx2010);
-	delete presentation;
 
 }
+

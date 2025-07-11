@@ -5,18 +5,18 @@ using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring inputFile = DataPath"Template_Ppt_1.pptx";
-	std::wstring outputFile_px = OutputPath"AddAndGetSpeakerNotes.pptx";
-	std::wstring outputFile_txt = OutputPath"AddAndGetSpeakerNotes.txt";
+	wstring inputFile = DATAPATH"Template_Ppt_1.pptx";
+	wstring outputFile_px = OUTPUTPATH"AddAndGetSpeakerNotes.pptx";
+	wstring outputFile_txt = OUTPUTPATH"AddAndGetSpeakerNotes.txt";
 
-	Presentation* presentation = new Presentation();
+	intrusive_ptr<Presentation> presentation = new Presentation();
 	presentation->LoadFromFile(inputFile.c_str());
 
 	//Get the first slide and in the PowerPoint document.
-	ISlide* slide = presentation->GetSlides()->GetItem(0);
+	intrusive_ptr<ISlide> slide = presentation->GetSlides()->GetItem(0);
 
 	//Get the NotesSlide in the first slide,if there is no notes, we need to add it firstly.
-	NotesSlide* ns = slide->GetNotesSlide();
+	intrusive_ptr<NotesSlide> ns = slide->GetNotesSlide();
 	if (ns == nullptr)
 	{
 		ns = slide->AddNotesSlide();
@@ -30,6 +30,4 @@ int main()
 
 	//Save to PowerPoint file.
 	presentation->SaveToFile(outputFile_px.c_str(), FileFormat::Pptx2013);
-
-	delete presentation;
 }

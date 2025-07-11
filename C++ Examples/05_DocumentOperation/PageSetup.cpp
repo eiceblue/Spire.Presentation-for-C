@@ -5,13 +5,11 @@ using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring inputFile = DataPath"PageSetup.pptx";
-	std::wstring outputFile = OutputPath"PageSetup.pptx";
+	wstring outputFile = OUTPUTPATH"PageSetup.pptx";
 
 	//Create a PPT document
-	Presentation* ppt = new Presentation();
-	//Load the file from disk.
-	//ppt->LoadFromFile(inputFile.c_str());
+	intrusive_ptr<Presentation> ppt = new Presentation();
+
 
 	//Set the size of slides
 	ppt->GetSlideSize()->SetSize(new SizeF(600, 600));
@@ -19,14 +17,14 @@ int main()
 	ppt->GetSlideSize()->SetType(SlideSizeType::Custom);
 
 	//Set background image
-	std::wstring ImageFile = DataPath"bg.png";
-	RectangleF* rect = new RectangleF(0, 0, ppt->GetSlideSize()->GetSize()->GetWidth(), ppt->GetSlideSize()->GetSize()->GetHeight());
+	std::wstring ImageFile = DATAPATH"bg.png";
+	intrusive_ptr<RectangleF> rect = new RectangleF(0, 0, ppt->GetSlideSize()->GetSize()->GetWidth(), ppt->GetSlideSize()->GetSize()->GetHeight());
 	ppt->GetSlides()->GetItem(0)->GetShapes()->AppendEmbedImage(ShapeType::Rectangle, ImageFile.c_str(), rect);
 	ppt->GetSlides()->GetItem(0)->GetShapes()->GetItem(0)->GetLine()->GetFillFormat()->GetSolidFillColor()->SetColor(Color::GetFloralWhite());
 
 	//Append new shape
-	RectangleF* rec = new RectangleF(ppt->GetSlideSize()->GetSize()->GetWidth() / 2 - 200, 150, 400, 200);
-	IAutoShape* shape = ppt->GetSlides()->GetItem(0)->GetShapes()->AppendShape(ShapeType::Rectangle, rec);
+	intrusive_ptr<RectangleF> rec = new RectangleF(ppt->GetSlideSize()->GetSize()->GetWidth() / 2 - 200, 150, 400, 200);
+	intrusive_ptr<IAutoShape> shape = ppt->GetSlides()->GetItem(0)->GetShapes()->AppendShape(ShapeType::Rectangle, rec);
 	shape->GetShapeStyle()->GetLineColor()->SetColor(Color::GetWhite());
 	shape->GetFill()->SetFillType(FillFormatType::None);
 
@@ -40,6 +38,5 @@ int main()
 
 	//Save to file.
 	ppt->SaveToFile(outputFile.c_str(), FileFormat::Pptx2010);
-	delete ppt;
 
 }

@@ -1,15 +1,14 @@
 #include "pch.h"
 
-using namespace std;
 using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring inputFile = DataPath"SetTransitions.pptx";
-	std::wstring outputFile = OutputPath"BetterSlideTransitions.pptx";
+	wstring inputFile = DATAPATH"SetTransitions.pptx";
+	wstring outputFile = OUTPUTPATH"BetterSlideTransitions.pptx";
 
 	//Create PPT document
-	Presentation* presentation = new Presentation();
+	intrusive_ptr<Presentation> presentation = new Presentation();
 
 	//Load the PPT
 	presentation->LoadFromFile(inputFile.c_str());
@@ -38,5 +37,5 @@ int main()
 
 	//Save the file
 	presentation->SaveToFile(outputFile.c_str(), FileFormat::Pptx2010);
-	delete presentation;
+	
 }

@@ -6,21 +6,21 @@ using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring inputFile_1 = DataPath"Template_Ppt_2.pptx";
-	std::wstring inputFile_2 = DataPath"Template_Ppt_1.pptx";
-	std::wstring outputFile = OutputPath"CopyChartBetweenPptFiles.pptx";
+	wstring inputFile_1 = DATAPATH"Template_Ppt_2.pptx";
+	wstring inputFile_2 = DATAPATH"Template_Ppt_1.pptx";
+	wstring outputFile = OUTPUTPATH"CopyChartBetweenPptFiles.pptx";
 
 	//Create a PPT document
-	Presentation* presentation = new Presentation();
+	intrusive_ptr<Presentation> presentation = new Presentation();
 	//Load the file from disk.
 	presentation->LoadFromFile(inputFile_1.c_str());
 
 	//Get chart on the first slide
-	IChart* chart = dynamic_cast<IChart*>(presentation->GetSlides()
+	intrusive_ptr<IChart> chart = Object::Dynamic_cast<IChart>(presentation->GetSlides()
 		->GetItem(0)->GetShapes()->GetItem(0));
 
 	//Create a PPT document
-	Presentation* presentation2 = new Presentation();
+	intrusive_ptr<Presentation> presentation2 = new Presentation();
 	//Load the file from disk.
 	presentation2->LoadFromFile(inputFile_2.c_str());
 
@@ -30,5 +30,4 @@ int main()
 
 	//Save to file.
 	presentation2->SaveToFile(outputFile.c_str(), FileFormat::Pptx2013);
-	delete presentation;
 }

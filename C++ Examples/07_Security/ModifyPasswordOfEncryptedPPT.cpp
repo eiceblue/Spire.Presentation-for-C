@@ -1,15 +1,14 @@
 #include "pch.h"
 
-using namespace std;
 using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring inputFile = DataPath"Template_Ppt_4.pptx";
-	std::wstring outputFile = OutputPath"ModifyPasswordOfEncryptedPPT.pptx";
+	wstring inputFile = DATAPATH"Template_Ppt_4.pptx";
+	wstring outputFile = OUTPUTPATH"ModifyPasswordOfEncryptedPPT.pptx";
 
 	//Create a PowerPoint document.
-	Presentation* presentation = new Presentation();
+	intrusive_ptr<Presentation> presentation = new Presentation();
 
 	//Load the file from disk.
 	presentation->LoadFromFile(inputFile.c_str(), L"123456");
@@ -22,6 +21,5 @@ int main()
 
 	//Save to file.
 	presentation->SaveToFile(outputFile.c_str(), FileFormat::Pptx2013);
-	delete presentation;
-
 }
+

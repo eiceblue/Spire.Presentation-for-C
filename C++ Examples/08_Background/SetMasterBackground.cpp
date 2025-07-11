@@ -6,10 +6,10 @@ using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring outputFile = OutputPath"SetMasterBackground.pptx";
+	wstring outputFile = OUTPUTPATH"SetMasterBackground.pptx";
 
 	//Create a PPT document
-	Presentation* presentation = new Presentation();
+	intrusive_ptr<Presentation> presentation = new Presentation();
 
 	//Set the slide background of master
 	presentation->GetMasters()->GetItem(0)->GetSlideBackground()->SetType(BackgroundType::Custom);
@@ -18,5 +18,4 @@ int main()
 
 	//Save the document
 	presentation->SaveToFile(outputFile.c_str(), FileFormat::Pptx2010);
-	delete presentation;
 }

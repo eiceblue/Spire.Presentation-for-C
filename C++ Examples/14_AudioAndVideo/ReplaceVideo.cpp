@@ -7,41 +7,40 @@ using namespace Spire::Presentation;
 int main()
 {
 
-	std::wstring inputFile_1 = DataPath"video.pptx";
-	std::wstring inputFile_2 = DataPath"repleaceVido.mp4";
-	std::wstring outputFile = OutputPath"ReplaceVideo.pptx";
-
+	wstring inputFile_1 = DATAPATH"video.pptx";
+	wstring inputFile_2 = DATAPATH"repleaceVido.mp4";
+	wstring outputFile = OUTPUTPATH"ReplaceVideo.pptx";
 
 	//Create PPT document
-	Presentation* presentation = new Presentation();
+	intrusive_ptr<Presentation> presentation = new Presentation();
 
 	//Load the PPT document from disk.
 	presentation->LoadFromFile(inputFile_1.c_str());
 
-	VideoCollection* videos = presentation->GetVideos();
+	intrusive_ptr<VideoCollection> videos = presentation->GetVideos();
 
 	//Traverse all the slides of PPT file
 	for (int i = 0; i < presentation->GetSlides()->GetCount(); i++)
 	{
-		ISlide* slide = presentation->GetSlides()->GetItem(i);
-		ShapeCollection* shapes = slide->GetShapes();
+		intrusive_ptr<ISlide> slide = presentation->GetSlides()->GetItem(i);
+		intrusive_ptr<ShapeCollection> shapes = slide->GetShapes();
 		//Traverse all the shapes of slides
 		for (int j = 0; j < shapes->GetCount(); j++)
 		{
-			IShape* shape = shapes->GetItem(j);
+			intrusive_ptr<IShape> shape = shapes->GetItem(j);
 			//If shape is IVideo
-			if (dynamic_cast<IVideo*>(shape) != nullptr)
+			//Replace the video
+			
+			if (Object::CheckType<IVideo>(shape))
 			{
-				//Replace the video
-				IVideo* video = dynamic_cast<IVideo*>(shape);
+				intrusive_ptr<IVideo> video = Object::Dynamic_cast<IVideo>(shape);
 				//Load the video document from disk.
-				Stream* videoStream = new Stream(inputFile_2.c_str());
-				VideoData* videoData = videos->Append(videoStream);
+				intrusive_ptr<Stream> videoStream = new Stream(inputFile_2.c_str());
+				intrusive_ptr<VideoData> videoData = videos->Append(videoStream);
 				video->SetEmbeddedVideoData(videoData);
 			}
 		}
 	}
 	//Save the document
 	presentation->SaveToFile(outputFile.c_str(), FileFormat::Pptx2013);
-	delete presentation;
 }

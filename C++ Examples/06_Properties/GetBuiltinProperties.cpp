@@ -1,28 +1,27 @@
 #include "pch.h"
 
-using namespace std;
 using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring inputFile = DataPath"GetProperties.pptx";
-	std::wstring outputFile = OutputPath"GetBuiltinProperties.txt";
+	wstring inputFile = DATAPATH"GetProperties.pptx";
+	wstring outputFile = OUTPUTPATH"GetBuiltinProperties.txt";
 
 	//Create PPT document
-	Presentation* presentation = new Presentation();
+	intrusive_ptr<Presentation> presentation = new Presentation();
 
 	//Load the PPT document from disk
 	presentation->LoadFromFile(inputFile.c_str());
 
 	//Get the builtin properties 
-	std::wstring application = presentation->GetDocumentProperty()->GetApplication();
-	std::wstring author = presentation->GetDocumentProperty()->GetAuthor();
-	std::wstring company = presentation->GetDocumentProperty()->GetCompany();
-	std::wstring keywords = presentation->GetDocumentProperty()->GetKeywords();
-	std::wstring comments = presentation->GetDocumentProperty()->GetComments();
-	std::wstring category = presentation->GetDocumentProperty()->GetCategory();
-	std::wstring title = presentation->GetDocumentProperty()->GetTitle();
-	std::wstring subject = presentation->GetDocumentProperty()->GetSubject();
+	wstring application = presentation->GetDocumentProperty()->GetApplication();
+	wstring author = presentation->GetDocumentProperty()->GetAuthor();
+	wstring company = presentation->GetDocumentProperty()->GetCompany();
+	wstring keywords = presentation->GetDocumentProperty()->GetKeywords();
+	wstring comments = presentation->GetDocumentProperty()->GetComments();
+	wstring category = presentation->GetDocumentProperty()->GetCategory();
+	wstring title = presentation->GetDocumentProperty()->GetTitle();
+	wstring subject = presentation->GetDocumentProperty()->GetSubject();
 
 	wofstream outFile(outputFile, ios::out);
 	outFile << "DocumentProperty.Application: " << application.c_str() << endl;
@@ -36,6 +35,5 @@ int main()
 
 	//Save them to a txt file
 	outFile.close();
-	delete presentation;
-
 }
+

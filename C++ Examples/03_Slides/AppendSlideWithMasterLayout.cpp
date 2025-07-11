@@ -1,28 +1,27 @@
 #include "pch.h"
 
-using namespace std;
 using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring inputFile = DataPath"AppendSlideWithMasterLayout.pptx";
-	std::wstring outputFile = OutputPath"AppendSlideWithMasterLayout.pptx";
+	wstring inputFile = DATAPATH"AppendSlideWithMasterLayout.pptx";
+	wstring outputFile = OUTPUTPATH"AppendSlideWithMasterLayout.pptx";
 
 	//Create a PPT document
-	Presentation* presentation = new Presentation();
+	intrusive_ptr<Presentation> presentation = new Presentation();
 
 	//Load the document from disk
 	presentation->LoadFromFile(inputFile.c_str());
 
 	//Get the master
-	IMasterSlide* master = presentation->GetMasters()->GetItem(0);
+	intrusive_ptr<IMasterSlide> master = presentation->GetMasters()->GetItem(0);
 
 	//Get master layout slides
-	IMasterLayouts* masterLayouts = master->GetLayouts();
-	ILayout* layoutSlide = masterLayouts->GetItem(1);
+	intrusive_ptr<IMasterLayouts> masterLayouts = master->GetLayouts();
+	intrusive_ptr<ILayout> layoutSlide = masterLayouts->GetItem(1);
 
 	////Append a rectangle to the layout slide
-	IAutoShape* shape = layoutSlide->GetShapes()->AppendShape(ShapeType::Rectangle, new RectangleF(10, 50, 100, 80));
+	intrusive_ptr<IAutoShape> shape = layoutSlide->GetShapes()->AppendShape(ShapeType::Rectangle, new RectangleF(10, 50, 100, 80));
 
 	////Add a text into the shape and set the style
 	shape->GetFill()->SetFillType(FillFormatType::None);
@@ -39,5 +38,5 @@ int main()
 
 	//Save the document
 	presentation->SaveToFile(outputFile.c_str(), FileFormat::Pptx2010);
-	delete presentation;
+	
 }

@@ -6,22 +6,23 @@ using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring inputFile = DataPath"ChartSample4.pptx";
-	std::wstring outputFile = OutputPath"FillPictureInChartMarker.pptx";
+	wstring inputFile = DATAPATH"ChartSample4.pptx";
+	wstring outputFile =OUTPUTPATH"FillPictureInChartMarker.pptx";
 
-	///Create a PPT document
-	Presentation* ppt = new Presentation();
+	//Create a PPT document
+	intrusive_ptr<Presentation> ppt = new Presentation();
 	//Load the file from disk.
 	ppt->LoadFromFile(inputFile.c_str());
 
 	//Get the chart.
-	IChart* chart = dynamic_cast<IChart*>(ppt->GetSlides()->GetItem(0)->GetShapes()->GetItem(0));
+	intrusive_ptr<IChart> chart = Object::Dynamic_cast<IChart>(ppt->GetSlides()->GetItem(0)->GetShapes()->GetItem(0));
 
-	Stream* stream = new Stream(DataPath"Logo.png");
-	IImageData* IImage = ppt->GetImages()->Append(stream);
+
+	intrusive_ptr<Stream> stream = new Stream(DATAPATH"Logo.png");
+	intrusive_ptr<IImageData> IImage = ppt->GetImages()->Append(stream);
 
 	//Create a ChartDataPoint object and specify the index
-	ChartDataPoint* dataPoint = new ChartDataPoint(chart->GetSeries()->GetItem(0));
+	intrusive_ptr<ChartDataPoint> dataPoint = new ChartDataPoint(chart->GetSeries()->GetItem(0));
 	dataPoint->SetIndex(0);
 
 	//Fill picture in marker
@@ -36,5 +37,4 @@ int main()
 
 	//Save to file.
 	ppt->SaveToFile(outputFile.c_str(), FileFormat::Pptx2010);
-	delete ppt;
 }

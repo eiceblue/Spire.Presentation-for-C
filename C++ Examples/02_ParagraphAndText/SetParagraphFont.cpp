@@ -1,39 +1,38 @@
 #include "pch.h"
 
-using namespace std;
 using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring inputFile = DataPath"Template_Az2.pptx";
-	std::wstring outputFile = OutputPath"SetParagraphFont.pptx";
+	wstring inputFile = DATAPATH"Template_Az2.pptx";
+	wstring outputFile = OUTPUTPATH"SetParagraphFont.pptx";
 
 	//Create a PPT document
-	Presentation* presentation = new Presentation();
+	intrusive_ptr<Presentation> presentation = new Presentation();
 
 	//Load PPT file from disk
 	presentation->LoadFromFile(inputFile.c_str());
 	//Get the first slide
-	ISlide* slide = presentation->GetSlides()->GetItem(0);
+	intrusive_ptr<ISlide> slide = presentation->GetSlides()->GetItem(0);
 
 	//Access the first and second placeholder in the slide and typecasting it as AutoShape
-	ITextFrameProperties* tf1 = (dynamic_cast<IAutoShape*>(slide->GetShapes()->GetItem(0)))->GetTextFrame();
-	ITextFrameProperties* tf2 = (dynamic_cast<IAutoShape*>(slide->GetShapes()->GetItem(1)))->GetTextFrame();
+	intrusive_ptr<ITextFrameProperties> tf1 = (Object::Dynamic_cast<IAutoShape>(slide->GetShapes()->GetItem(0)))->GetTextFrame();
+	intrusive_ptr<ITextFrameProperties> tf2 = (Object::Dynamic_cast<IAutoShape>(slide->GetShapes()->GetItem(1)))->GetTextFrame();
 
 	// Access the first Paragraph
-	TextParagraph* para1 = tf1->GetParagraphs()->GetItem(0);
-	TextParagraph* para2 = tf2->GetParagraphs()->GetItem(0);
+	intrusive_ptr<TextParagraph> para1 = tf1->GetParagraphs()->GetItem(0);
+	intrusive_ptr<TextParagraph> para2 = tf2->GetParagraphs()->GetItem(0);
 
 	//Justify the paragraph
 	para2->SetAlignment(TextAlignmentType::Justify);
 
 	//Access the first text range
-	TextRange* textRange1 = para1->GetFirstTextRange();
-	TextRange* textRange2 = para2->GetFirstTextRange();
+	intrusive_ptr<TextRange> textRange1 = para1->GetFirstTextRange();
+	intrusive_ptr<TextRange> textRange2 = para2->GetFirstTextRange();
 
 	//Define new fonts
-	TextFont* fd1 = new TextFont(L"Elephant");
-	TextFont* fd2 = new TextFont(L"Castellar");
+	intrusive_ptr<TextFont> fd1 = new TextFont(L"Elephant");
+	intrusive_ptr<TextFont> fd2 = new TextFont(L"Castellar");
 
 	// Assign new fonts to text range
 	textRange1->SetLatinFont(fd1);
@@ -54,6 +53,5 @@ int main()
 	textRange2->GetFill()->GetSolidColor()->SetColor(Color::GetPeru());
 
 	presentation->SaveToFile(outputFile.c_str(), FileFormat::Pptx2013);
-	delete presentation;
-
 }
+

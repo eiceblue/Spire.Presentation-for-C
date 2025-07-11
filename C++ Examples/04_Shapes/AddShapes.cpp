@@ -1,23 +1,22 @@
 #include "pch.h"
 
-using namespace std;
 using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring outputFile = OutputPath"AddShapes.pptx";
+	wstring outputFile = OUTPUTPATH"AddShapes.pptx";
 
 	//Create PPT document
-	Presentation* presentation = new Presentation();
+	intrusive_ptr<Presentation> presentation = new Presentation();
 
 	//Set background Image
-	std::wstring ImageFile = DataPath"bg.png";
-	RectangleF* rect = new RectangleF(0, 0, presentation->GetSlideSize()->GetSize()->GetWidth(), presentation->GetSlideSize()->GetSize()->GetHeight());
+	wstring ImageFile = DATAPATH"bg.png";
+	intrusive_ptr<RectangleF> rect = new RectangleF(0, 0, presentation->GetSlideSize()->GetSize()->GetWidth(), presentation->GetSlideSize()->GetSize()->GetHeight());
 	presentation->GetSlides()->GetItem(0)->GetShapes()->AppendEmbedImage(ShapeType::Rectangle, ImageFile.c_str(), rect);
 	presentation->GetSlides()->GetItem(0)->GetShapes()->GetItem(0)->GetLine()->GetFillFormat()->GetSolidFillColor()->SetColor(Color::GetFloralWhite());
 
 	//Append new shape - Triangle and set style
-	IAutoShape* shape = presentation->GetSlides()->GetItem(0)->GetShapes()->AppendShape(ShapeType::Triangle, new RectangleF(115, 130, 100, 100));
+	intrusive_ptr<IAutoShape> shape = presentation->GetSlides()->GetItem(0)->GetShapes()->AppendShape(ShapeType::Triangle, new RectangleF(115, 130, 100, 100));
 	shape->GetFill()->SetFillType(FillFormatType::Solid);
 	shape->GetFill()->GetSolidColor()->SetColor(Color::GetLightGreen());
 	shape->GetShapeStyle()->GetLineColor()->SetColor(Color::GetWhite());
@@ -58,5 +57,5 @@ int main()
 
 	//Save the document
 	presentation->SaveToFile(outputFile.c_str(), FileFormat::Pptx2010);
-	delete presentation;
 }
+

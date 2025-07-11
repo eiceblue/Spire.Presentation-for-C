@@ -5,19 +5,19 @@ using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring outputFile = OutputPath"DoughnutChart.pptx";
+	wstring outputFile = OUTPUTPATH"DoughnutChart.pptx";
 
 	//Create a PPT document
-	Presentation* ppt = new Presentation();
-	RectangleF* rect = new RectangleF(80, 100, 550, 320);
+	intrusive_ptr<Presentation> ppt = new Presentation();
+	intrusive_ptr<RectangleF> rect = new RectangleF(80, 100, 550, 320);
 
 	//Set background image
-	std::wstring ImageFile = DataPath"bg.png";
-	RectangleF* rect2 = new RectangleF(0, 0, ppt->GetSlideSize()->GetSize()->GetWidth(), ppt->GetSlideSize()->GetSize()->GetHeight());
+	std::wstring ImageFile = DATAPATH"bg.png";
+	intrusive_ptr<RectangleF> rect2 = new RectangleF(0, 0, ppt->GetSlideSize()->GetSize()->GetWidth(), ppt->GetSlideSize()->GetSize()->GetHeight());
 	ppt->GetSlides()->GetItem(0)->GetShapes()->AppendEmbedImage(ShapeType::Rectangle, ImageFile.c_str(), rect2);
 	ppt->GetSlides()->GetItem(0)->GetShapes()->GetItem(0)->GetLine()->GetFillFormat()->GetSolidFillColor()->SetKnownColor(KnownColors::FloralWhite);
 	//Add a Doughnut chart
-	IChart* chart = ppt->GetSlides()->GetItem(0)->GetShapes()->AppendChart(ChartType::Doughnut, rect, false);
+	intrusive_ptr<IChart> chart = ppt->GetSlides()->GetItem(0)->GetShapes()->AppendChart(ChartType::Doughnut, rect, false);
 	chart->GetChartTitle()->GetTextProperties()->SetText(L"Market share by country");
 	chart->GetChartTitle()->GetTextProperties()->SetIsCentered(true);
 	chart->GetChartTitle()->SetHeight(30);
@@ -37,7 +37,7 @@ int main()
 
 	for (int i = 0; i < chart->GetSeries()->GetItem(0)->GetValues()->GetCount(); i++)
 	{
-		ChartDataPoint* cdp = new ChartDataPoint(chart->GetSeries()->GetItem(0));
+		intrusive_ptr<ChartDataPoint> cdp = new ChartDataPoint(chart->GetSeries()->GetItem(0));
 		cdp->SetIndex(i);
 		chart->GetSeries()->GetItem(0)->GetDataPoints()->Add(cdp);
 	}
@@ -57,6 +57,5 @@ int main()
 
 	//Save to file.
 	ppt->SaveToFile(outputFile.c_str(), FileFormat::Pptx2013);
-	delete ppt;
 
 }

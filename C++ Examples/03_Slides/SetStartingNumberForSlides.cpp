@@ -1,15 +1,14 @@
 #include "pch.h"
 
-using namespace std;
 using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring inputFile = DataPath"ChangeSlidePosition.pptx";
-	std::wstring outputFile = OutputPath"SetStartingNumberForSlides.pptx";
+	wstring inputFile = DATAPATH"ChangeSlidePosition.pptx";
+	wstring outputFile = OUTPUTPATH"SetStartingNumberForSlides.pptx";
 
 	//Create PPT document
-	Presentation* presentation = new Presentation();
+	intrusive_ptr<Presentation> presentation = new Presentation();
 
 	//Load the PPT document from disk.
 	presentation->LoadFromFile(inputFile.c_str());
@@ -19,5 +18,5 @@ int main()
 
 	//Save file
 	presentation->SaveToFile(outputFile.c_str(), FileFormat::Pptx2013);
-	delete presentation;
+		
 }

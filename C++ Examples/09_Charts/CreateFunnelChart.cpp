@@ -6,13 +6,13 @@ using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring outputFile = OutputPath"CreateFunnelChart.pptx";
+	wstring outputFile = OUTPUTPATH"CreateFunnelChart.pptx";
 
 	//Create a PPT document
-	Presentation* ppt = new Presentation();
+	intrusive_ptr<Presentation> ppt = new Presentation();
 
 	//Create a Funnel chart to the first slide
-	IChart* chart = ppt->GetSlides()->GetItem(0)->GetShapes()->AppendChart(ChartType::Funnel, new RectangleF(50, 50, 550, 400), false);
+	intrusive_ptr<IChart> chart = ppt->GetSlides()->GetItem(0)->GetShapes()->AppendChart(ChartType::Funnel, new RectangleF(50, 50, 550, 400), false);
 
 	//Set series text
 	chart->GetChartData()->GetItem(0, 1)->SetText(L"Series 1");
@@ -45,5 +45,4 @@ int main()
 
 	//Save to file.
 	ppt->SaveToFile(outputFile.c_str(), FileFormat::Pptx2013);
-	delete ppt;
 }

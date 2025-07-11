@@ -1,15 +1,14 @@
 #include "pch.h"
 
-using namespace std;
 using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring inputFile = DataPath"GetSlideLayoutName.pptx";
-	std::wstring outputFile = OutputPath"GetSlideLayoutName.txt";
+	wstring inputFile = DATAPATH"GetSlideLayoutName.pptx";
+	wstring outputFile = OUTPUTPATH"GetSlideLayoutName.txt";
 
 	//Create a PPT document
-	Presentation* presentation = new Presentation();
+	intrusive_ptr<Presentation> presentation = new Presentation();
 
 	//Load the document from disk
 	presentation->LoadFromFile(inputFile.c_str());
@@ -24,5 +23,6 @@ int main()
 		outFile << "The name of slide " << i << " layout is :" << name.c_str() << endl;
 	}
 	outFile.close();
-	delete presentation;
+
+
 }

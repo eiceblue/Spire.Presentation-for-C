@@ -1,23 +1,21 @@
 #include "pch.h"
 
-using namespace std;
 using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring outputFile = OutputPath"SetImageFrameFormat.pptx";
-
+	wstring outputFile = OUTPUTPATH"SetImageFrameFormat.pptx";
 	//Create a PPT document
-	Presentation* ppt = new Presentation();
+	intrusive_ptr<Presentation> ppt = new Presentation();
 
 	//Load an image
-	std::wstring imageFile = DataPath"iceblueLogo.png";
-	Stream* stream = new Stream(imageFile.c_str());
-	IImageData* imageData = ppt->GetImages()->Append(stream);
+	wstring imageFile = DATAPATH"iceblueLogo.png";
+	intrusive_ptr<Stream> stream = new Stream(imageFile.c_str());
+	intrusive_ptr<IImageData> imageData = ppt->GetImages()->Append(stream);
 
 	//Add the image in document
-	RectangleF* rect = new RectangleF(100, 100, imageData->GetWidth() / 2, imageData->GetHeight() / 2);
-	IEmbedImage* pptImage = ppt->GetSlides()->GetItem(0)->GetShapes()->AppendEmbedImage(ShapeType::Rectangle, imageData, rect);
+	intrusive_ptr<RectangleF> rect = new RectangleF(100, 100, imageData->GetWidth() / 2, imageData->GetHeight() / 2);
+	intrusive_ptr<IEmbedImage> pptImage = ppt->GetSlides()->GetItem(0)->GetShapes()->AppendEmbedImage(ShapeType::Rectangle, imageData, rect);
 
 	//Set the formatting of the image frame
 	pptImage->GetLine()->GetFillFormat()->SetFillType(FillFormatType::Solid);
@@ -27,6 +25,5 @@ int main()
 
 	//Save the document
 	ppt->SaveToFile(outputFile.c_str(), FileFormat::Pptx2013);
-	delete ppt;
-
 }
+

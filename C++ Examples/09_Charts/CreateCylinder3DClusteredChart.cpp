@@ -6,20 +6,20 @@ using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring outputFile = OutputPath"CreateCylinder3DClusteredChart.pptx";
+	wstring outputFile = OUTPUTPATH"CreateCylinder3DClusteredChart.pptx";
 
 	//Create a PPT document
-	Presentation* ppt = new Presentation();
+	intrusive_ptr<Presentation> ppt = new Presentation();
 
 	//Set background image
-	std::wstring ImageFile = DataPath"bg.png";
-	RectangleF* rect2 = new RectangleF(0, 0, ppt->GetSlideSize()->GetSize()->GetWidth(), ppt->GetSlideSize()->GetSize()->GetHeight());
+	std::wstring ImageFile = DATAPATH"bg.png";
+	intrusive_ptr<RectangleF> rect2 = new RectangleF(0, 0, ppt->GetSlideSize()->GetSize()->GetWidth(), ppt->GetSlideSize()->GetSize()->GetHeight());
 	ppt->GetSlides()->GetItem(0)->GetShapes()->AppendEmbedImage(ShapeType::Rectangle, ImageFile.c_str(), rect2);
 	ppt->GetSlides()->GetItem(0)->GetShapes()->GetItem(0)->GetLine()->GetFillFormat()->GetSolidFillColor()->SetKnownColor(KnownColors::FloralWhite);
 
 	//Insert chart
-	RectangleF* rect = new RectangleF(ppt->GetSlideSize()->GetSize()->GetWidth() / 2 - 200, 85, 400, 400);
-	IChart* chart = ppt->GetSlides()->GetItem(0)->GetShapes()->AppendChart(ChartType::Cylinder3DClustered, rect);
+	intrusive_ptr<RectangleF> rect = new RectangleF(ppt->GetSlideSize()->GetSize()->GetWidth() / 2 - 200, 85, 400, 400);
+	intrusive_ptr<IChart> chart = ppt->GetSlides()->GetItem(0)->GetShapes()->AppendChart(ChartType::Cylinder3DClustered, rect);
 
 	//Add chart Title
 	chart->GetChartTitle()->GetTextProperties()->SetText(L"Report");
@@ -77,5 +77,4 @@ int main()
 
 	//Save to file.
 	ppt->SaveToFile(outputFile.c_str(), FileFormat::Pptx2010);
-	delete ppt;
 }

@@ -1,15 +1,14 @@
 #include "pch.h"
 
-using namespace std;
 using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring inputFile = DataPath"ExtractTextFromSmartArt.pptx";
-	std::wstring outputFile = OutputPath"ExtractTextFromSmartArt.txt";
+	wstring inputFile = DATAPATH"ExtractTextFromSmartArt.pptx";
+	wstring outputFile = OUTPUTPATH"ExtractTextFromSmartArt.txt";
 
 	//Create PPT document
-	Presentation* presentation = new Presentation();
+	intrusive_ptr<Presentation> presentation = new Presentation();
 
 	//Load the file from disk.
 	presentation->LoadFromFile(inputFile.c_str());
@@ -22,10 +21,10 @@ int main()
 	{
 		for (int j = 0; j < presentation->GetSlides()->GetItem(i)->GetShapes()->GetCount(); j++)
 		{
-			if (dynamic_cast<ISmartArt*>(presentation->GetSlides()->GetItem(i)->GetShapes()->GetItem(j)) != nullptr)
-			{
-				ISmartArt* smartArt = dynamic_cast<ISmartArt*>(presentation->GetSlides()->GetItem(i)->GetShapes()->GetItem(j));
+			intrusive_ptr<ISmartArt> smartArt = Object::Dynamic_cast<ISmartArt>(presentation->GetSlides()->GetItem(i)->GetShapes()->GetItem(j));
 
+			if (smartArt != nullptr)
+			{
 				//Extract text from SmartArt and append to the StringBuilder object.
 				for (int k = 0; k < smartArt->GetNodes()->GetCount(); k++)
 				{
@@ -36,5 +35,4 @@ int main()
 	}
 	//Save to file.
 	outFile.close();
-	delete presentation;
 }

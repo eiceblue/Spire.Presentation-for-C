@@ -1,17 +1,16 @@
-ï»¿#include "pch.h"
+#include "pch.h"
 
-using namespace std;
 using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring outputFile = OutputPath"SetTextDirection.pptx";
+	wstring outputFile = OUTPUTPATH"SetTextDirection.pptx";
 
 	//Create an instance of presentation document
-	Presentation* ppt = new Presentation();
+	intrusive_ptr<Presentation> ppt = new Presentation();
 
 	//Append a shape with text to the first slide
-	IAutoShape* textboxShape = ppt->GetSlides()->GetItem(0)->GetShapes()->AppendShape(ShapeType::Rectangle, new RectangleF(250, 70, 100, 400));
+	intrusive_ptr<IAutoShape> textboxShape = ppt->GetSlides()->GetItem(0)->GetShapes()->AppendShape(ShapeType::Rectangle, new RectangleF(250, 70, 100, 400));
 	textboxShape->GetShapeStyle()->GetLineColor()->SetColor(Color::GetTransparent());
 	textboxShape->GetFill()->SetFillType(FillFormatType::Solid);
 	textboxShape->GetFill()->GetSolidColor()->SetColor(Color::GetLightBlue());
@@ -25,12 +24,12 @@ int main()
 	textboxShape->GetFill()->SetFillType(FillFormatType::Solid);
 	textboxShape->GetFill()->GetSolidColor()->SetColor(Color::GetLightGray());
 	//Append some asian characters
-	textboxShape->GetTextFrame()->SetText(L"æ¬¢è¿Žå…‰ä¸´");
+	textboxShape->GetTextFrame()->SetText(L"»¶Ó­¹âÁÙ");
 	//Set the VerticalTextType as EastAsianVertical to aviod rotating text 90 degrees
 	textboxShape->GetTextFrame()->SetVerticalTextType(VerticalTextType::EastAsianVertical);
 
 	//Save the document
 	ppt->SaveToFile(outputFile.c_str(), FileFormat::Pptx2013);
-	delete ppt;
 
 }
+

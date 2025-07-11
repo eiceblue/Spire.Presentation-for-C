@@ -1,15 +1,14 @@
 #include "pch.h"
 
-using namespace std;
 using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring inputFile = DataPath"SmartArt.pptx";
-	std::wstring outputFile = OutputPath"AccessSpecificChildNode.txt";
+	wstring inputFile = DATAPATH"SmartArt.pptx";
+	wstring outputFile = OUTPUTPATH"AccessSpecificChildNode.txt";
 
 	//Create PPT document
-	Presentation* presentation = new Presentation();
+	intrusive_ptr<Presentation> presentation = new Presentation();
 
 	//Load the PPT
 	presentation->LoadFromFile(inputFile.c_str());
@@ -19,20 +18,19 @@ int main()
 	outFile << "Here is the SmartArt child node parameters details:" << endl;
 	for (int s = 0; s < presentation->GetSlides()->GetItem(0)->GetShapes()->GetCount(); s++)
 	{
-		IShape* shape = presentation->GetSlides()->GetItem(0)->GetShapes()->GetItem(s);
-		if (dynamic_cast<ISmartArt*>(shape) != nullptr)
+		intrusive_ptr<IShape> shape = presentation->GetSlides()->GetItem(0)->GetShapes()->GetItem(s);
+		//Get the SmartArt
+		intrusive_ptr<ISmartArt> sa = Object::Dynamic_cast<ISmartArt>(shape);
+		if (sa != nullptr)
 		{
-			//Get the SmartArt
-			ISmartArt* sa = dynamic_cast<ISmartArt*>(shape);
-
 			//Get SmartArt node collection 
-			ISmartArtNodeCollection* nodes = sa->GetNodes();
+			intrusive_ptr<ISmartArtNodeCollection> nodes = sa->GetNodes();
 
 			//Access SmartArt node at index 0
-			ISmartArtNode* node = nodes->GetItem(0);
+			intrusive_ptr<ISmartArtNode> node = nodes->GetItem(0);
 
 			//Access SmartArt child node at index 1
-			ISmartArtNode* childNode = node->GetChildNodes()->GetItem(1);
+			intrusive_ptr<ISmartArtNode> childNode = node->GetChildNodes()->GetItem(1);
 
 			//Print the SmartArt child node parameters
 			outFile << "Node text = " << childNode->GetTextFrame()->GetText() << ", Node level = " << childNode->GetLevel() << ", Node Position = " << childNode->GetPosition() << endl;
@@ -40,5 +38,5 @@ int main()
 	}
 	//Save the file
 	outFile.close();
-	delete presentation;
+	
 }

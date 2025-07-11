@@ -5,15 +5,15 @@ using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring inputFile = DataPath"AddSection.pptx";
-	std::wstring outputFile = OutputPath"GetSectionIndex.txt";
+	wstring inputFile = DATAPATH"AddSection.pptx";
+	wstring outputFile = OUTPUTPATH"GetSectionIndex.txt";
 
 	//Create a PPT document
-	Presentation* ppt = new Presentation();
+	intrusive_ptr<Presentation> ppt = new Presentation();
 	//Load the file from disk.
 	ppt->LoadFromFile(inputFile.c_str());
 
-	Section* section = ppt->GetSectionList()->GetItem(0);
+	intrusive_ptr<Section> section = ppt->GetSectionList()->GetItem(0);
 
 	int index = ppt->GetSectionList()->IndexOf(section);
 
@@ -23,6 +23,5 @@ int main()
 	out.flush();
 	out << L"index:" + std::to_wstring(index);
 	out.close();
-	delete ppt;
 
 }

@@ -1,14 +1,12 @@
 #include "pch.h"
 
-using namespace std;
 using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring outputFile = OutputPath"CreateSlide.pptx";
-
+	wstring outputFile = OUTPUTPATH"CreateSlide.pptx";
 	//Create PPT document
-	Presentation* presentation = new Presentation();
+	intrusive_ptr<Presentation> presentation = new Presentation();
 
 	//Add new slide
 	presentation->GetSlides()->Append();
@@ -16,18 +14,18 @@ int main()
 	//Set the background image
 	for (int i = 0; i < 2; i++)
 	{
-		std::wstring ImageFile = DataPath"bg.png";
-		RectangleF* rect = new RectangleF(0, 0, presentation->GetSlideSize()->GetSize()->GetWidth(), presentation->GetSlideSize()->GetSize()->GetHeight());
+		wstring ImageFile = DATAPATH"bg.png";
+		intrusive_ptr<RectangleF> rect = new RectangleF(0, 0, presentation->GetSlideSize()->GetSize()->GetWidth(), presentation->GetSlideSize()->GetSize()->GetHeight());
 		presentation->GetSlides()->GetItem(i)->GetShapes()->AppendEmbedImage(ShapeType::Rectangle, ImageFile.c_str(), rect);
 		presentation->GetSlides()->GetItem(i)->GetShapes()->GetItem(0)->GetLine()->GetFillFormat()->GetSolidFillColor()->SetColor(Color::GetFloralWhite());
 	}
 
 	//Add title
-	RectangleF* rec_title = new RectangleF(presentation->GetSlideSize()->GetSize()->GetWidth() / 2 - 200, 70, 400, 50);
-	IAutoShape* shape_title = presentation->GetSlides()->GetItem(0)->GetShapes()->AppendShape(ShapeType::Rectangle, rec_title);
+	intrusive_ptr<RectangleF> rec_title = new RectangleF(presentation->GetSlideSize()->GetSize()->GetWidth() / 2 - 200, 70, 400, 50);
+	intrusive_ptr<IAutoShape> shape_title = presentation->GetSlides()->GetItem(0)->GetShapes()->AppendShape(ShapeType::Rectangle, rec_title);
 	shape_title->GetShapeStyle()->GetLineColor()->SetColor(Color::GetWhite());
 	shape_title->GetFill()->SetFillType(FillFormatType::None);
-	TextParagraph* para_title = new TextParagraph();
+	intrusive_ptr<TextParagraph> para_title = new TextParagraph();
 	para_title->SetText(L"E-iceblue");
 	para_title->SetAlignment(TextAlignmentType::Center);
 	para_title->GetTextRanges()->GetItem(0)->SetLatinFont(new TextFont(L"Myriad Pro Light"));
@@ -37,7 +35,7 @@ int main()
 	shape_title->GetTextFrame()->GetParagraphs()->Append(para_title);
 
 	//Append new shape
-	IAutoShape* shape = presentation->GetSlides()->GetItem(0)->GetShapes()->AppendShape(ShapeType::Rectangle, new RectangleF(50, 150, 600, 280));
+	intrusive_ptr<IAutoShape> shape = presentation->GetSlides()->GetItem(0)->GetShapes()->AppendShape(ShapeType::Rectangle, new RectangleF(50, 150, 600, 280));
 	shape->GetShapeStyle()->GetLineColor()->SetColor(Color::GetWhite());
 	shape->GetFill()->SetFillType(FillFormatType::None);
 	shape->GetLine()->SetFillType(FillFormatType::None);
@@ -45,7 +43,7 @@ int main()
 	shape->AppendTextFrame(L"Welcome to use Spire.Presentation for .NET.");
 
 	//Add new paragraph
-	TextParagraph* pare = new TextParagraph();
+	intrusive_ptr<TextParagraph> pare = new TextParagraph();
 	pare->SetText(L"");
 	shape->GetTextFrame()->GetParagraphs()->Append(pare);
 
@@ -57,7 +55,7 @@ int main()
 	//Set the Font
 	for (int t = 0; t < shape->GetTextFrame()->GetParagraphs()->GetCount(); t++)
 	{
-		TextParagraph* para = shape->GetTextFrame()->GetParagraphs()->GetItem(t);
+		intrusive_ptr<TextParagraph> para = shape->GetTextFrame()->GetParagraphs()->GetItem(t);
 		para->GetTextRanges()->GetItem(0)->SetLatinFont(new TextFont(L"Myriad Pro"));
 		para->GetTextRanges()->GetItem(0)->SetFontHeight(24);
 		para->GetTextRanges()->GetItem(0)->GetFill()->SetFillType(FillFormatType::Solid);
@@ -89,5 +87,5 @@ int main()
 
 	//Save the document
 	presentation->SaveToFile(outputFile.c_str(), FileFormat::Pptx2010);
-	delete presentation;
+			
 }

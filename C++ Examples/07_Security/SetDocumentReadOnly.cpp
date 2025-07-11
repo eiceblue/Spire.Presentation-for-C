@@ -1,15 +1,14 @@
 #include "pch.h"
 
-using namespace std;
 using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring inputFile = DataPath"SetDocumentReadOnly.pptx";
-	std::wstring outputFile = OutputPath"SetDocumentReadOnly.pptx";
-
+	wstring inputFile = DATAPATH"SetDocumentReadOnly.pptx";
+	wstring outputFile = OUTPUTPATH"SetDocumentReadOnly.pptx";
+	
 	//Load a PPT document
-	Presentation* presentation = new Presentation();
+	intrusive_ptr<Presentation> presentation = new Presentation();
 
 	//Load the document from disk
 	presentation->LoadFromFile(inputFile.c_str());
@@ -22,6 +21,6 @@ int main()
 
 	//Save the document
 	presentation->SaveToFile(outputFile.c_str(), FileFormat::Pptx2010);
-	delete presentation;
 
 }
+

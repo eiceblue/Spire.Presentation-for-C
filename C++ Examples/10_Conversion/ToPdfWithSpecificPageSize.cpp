@@ -5,11 +5,11 @@ using namespace Spire::Presentation;
 
 int main()
 {
-	std::wstring inputFile = DataPath"ToPDF.pptx";
-	std::wstring outputFile = OutputPath"ToPdfWithSpecificPageSize.pdf";
+	wstring inputFile = DATAPATH"ToPDF.pptx";
+	wstring outputFile = OUTPUTPATH"ToPdfWithSpecificPageSize.pdf";
 
 	//Create a PPT document
-	Presentation* ppt = new Presentation();
+	intrusive_ptr<Presentation> ppt = new Presentation();
 	//Load the file from disk.
 	ppt->LoadFromFile(inputFile.c_str());
 
@@ -21,7 +21,5 @@ int main()
 
 	//Save the document to HTML format
 	ppt->SaveToFile(outputFile.c_str(), FileFormat::PDF);
-
-	delete ppt;
 
 }
